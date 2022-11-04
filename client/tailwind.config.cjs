@@ -3,15 +3,17 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      sans: ['Poppins', 'sans-serif'],
+      sans: ['"Space Grotesk"', 'sans-serif'],
       mono: ['"DM Mono"', 'monospace'],
     },
     extend: {
       colors: {
         spotify: '#2CE184',
       },
-      fontFamily: {
-        space: ['"Space Grotesk"', 'sans-serif'],
+      borderRadius: {
+        '4xl': '1.75rem',
+        '5xl': '2rem',
+        '6xl': '2.5rem',
       },
     },
   },

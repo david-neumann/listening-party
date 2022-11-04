@@ -10,7 +10,10 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Connect to database
-mongoose.connect('mongodb://localhost:27017/bountydb', () =>
+const connectionString =
+  'mongodb+srv://Cluster66093:S3hXb01tb1Vb@cluster66093.gz01ea4.mongodb.net/?retryWrites=true&w=majority';
+
+mongoose.connect(connectionString, () =>
   console.log('Connected to the database.')
 );
 

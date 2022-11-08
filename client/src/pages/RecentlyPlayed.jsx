@@ -1,4 +1,5 @@
 import SongCard from '../components/SongCard';
+import PageTitle from '../components/PageTitle';
 
 const RecentlyPlayed = () => {
   const spanStyles = 'bg-green-300 text-gray-800 font-semibold';
@@ -6,9 +7,7 @@ const RecentlyPlayed = () => {
   return (
     <>
       <header className='mb-8'>
-        <h1 className='text-3xl font-bold text-green-300 mb-4'>
-          What you're listening to
-        </h1>
+        <PageTitle marginBottom={4}>What you're listening to</PageTitle>
         <div className='flex gap-x-3 justify-center'>
           <span
             className={`py-2 ${spanStyles} rounded-xl w-[80px] text-center text-sm`}

@@ -11,13 +11,16 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Connect to database
-const connectionString = `mongodb+srv://Cluster66093:${process.env.DBPW}@cluster66093.gz01ea4.mongodb.net/?retryWrites=true&w=majority`;
-
-mongoose.connect(connectionString, () =>
+mongoose.connect(process.env.CONNECTION, () =>
   console.log('Connected to the database.')
 );
 
 // Routes
+app.use('/server/auth', require('./routes/authRouter'));
+app.use(
+  '/server/api',
+  jwt({ secret: process.env.SECRET, algorithms: ['HS256'] })
+);
 
 // Error handler
 app.use((err, req, res, next) => {

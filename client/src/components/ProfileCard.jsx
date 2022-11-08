@@ -1,7 +1,7 @@
 const ProfileCard = () => {
   return (
     <div>
-      <div className='flex gap-x-4 mb-4'>
+      <div className='flex gap-x-4 mb-6'>
         <figure className="bg-[url('/profile.jpeg')] bg-cover bg-center w-24 aspect-square rounded-full"></figure>
         <div className=''>
           <h2 className='text-2xl font-semibold'>Username</h2>

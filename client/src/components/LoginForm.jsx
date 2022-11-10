@@ -23,7 +23,10 @@ const LoginForm = ({ token, login, errMsg, resetAuthErr }) => {
   const handleLogin = e => {
     e.preventDefault();
     login(formInputs);
-    if (token) navigate('/home');
+    if (token) {
+      navigate('/');
+      resetAuthErr();
+    }
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -70,6 +73,7 @@ const LoginForm = ({ token, login, errMsg, resetAuthErr }) => {
           />
         )}
       </div>
+      {errMsg && <p className='text-red-500 place-self-center'>{errMsg}</p>}
       <button className='mt-4 py-2 text-xl font-bold rounded-2xl bg-green-300 text-gray-800'>
         Sign in
       </button>

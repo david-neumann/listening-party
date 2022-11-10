@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Eye, EyeOff } from 'react-feather';
 
-const SignUpForm = () => {
+const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   const initInputs = {
     username: '',
     password: '',
@@ -64,10 +65,21 @@ const SignUpForm = () => {
     });
   };
 
+  const navigate = useNavigate();
+
+  const handleSignup = e => {
+    e.preventDefault();
+    signup(formInputs);
+    if (token) navigate('home');
+  };
+
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <form className='flex flex-col gap-y-6 justify-center'>
+    <form
+      onSubmit={handleSignup}
+      className='flex flex-col gap-y-6 justify-center'
+    >
       <div className='flex flex-col gap-y-1'>
         <label className='font-light'>Username</label>
         <input

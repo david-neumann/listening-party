@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // Connect to database
-mongoose.connect(process.env.CONNECTION, () =>
+mongoose.connect('mongodb://localhost:27017/listeningpartydb', () =>
   console.log('Connected to the database.')
 );
 

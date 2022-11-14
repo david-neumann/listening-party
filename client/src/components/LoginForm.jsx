@@ -24,7 +24,7 @@ const LoginForm = ({ token, login, errMsg, resetAuthErr }) => {
     e.preventDefault();
     login(formInputs);
     if (token) {
-      navigate('/');
+      navigate('/spotify');
       resetAuthErr();
     }
   };
@@ -73,8 +73,13 @@ const LoginForm = ({ token, login, errMsg, resetAuthErr }) => {
           />
         )}
       </div>
-      {errMsg && <p className='text-red-500 place-self-center'>{errMsg}</p>}
-      <button className='mt-4 py-2 text-xl font-bold rounded-2xl bg-green-300 text-gray-800'>
+      {errMsg && (
+        <div className='flex justify-center items-center gap-x-2'>
+          <AlertCircle size={20} color='#ef4444' />
+          <p className='text-red-500 place-self-center'>{errMsg}</p>
+        </div>
+      )}
+      <button className='mt-4 py-2 text-xl font-bold rounded-2xl bg-green-300 hover:bg-green-400 text-gray-800'>
         Sign in
       </button>
     </form>

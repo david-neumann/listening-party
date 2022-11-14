@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
+import SpotifyAuth from './pages/SpotifyAuth';
 import Home from './pages/Home';
 import Feed from './pages/Feed';
 import Profile from './pages/Profile';
@@ -19,6 +20,7 @@ const App = () => {
       <Routes>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/spotify' element={<SpotifyAuth />} />
         <Route
           path='/'
           element={

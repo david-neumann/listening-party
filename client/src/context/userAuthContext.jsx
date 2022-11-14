@@ -56,7 +56,7 @@ const UserAuthContextProvider = props => {
       user: {},
       token: '',
     });
-    navigate('/');
+    navigate('/login');
   };
 
   // Capture error message for display on auth page

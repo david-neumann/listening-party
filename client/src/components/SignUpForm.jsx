@@ -10,7 +10,7 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   };
 
   const [formInputs, setFormInputs] = useState(initInputs);
-  const [profileImg, setProfileImg] = useState(null);
+  // const [profileImg, setProfileImg] = useState('');
   const [formError, setFormError] = useState(initInputs);
 
   const handleChange = e => {
@@ -70,7 +70,7 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   const handleSignup = e => {
     e.preventDefault();
     signup(formInputs);
-    if (token) navigate('home');
+    if (token) navigate('/spotify');
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -172,7 +172,7 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
           </div>
         )}
       </div>
-      <div className='flex flex-col gap-y-1'>
+      {/* <div className='flex flex-col gap-y-1'>
         <label className='font-light'>Upload a profile image (optional):</label>
         <input
           type='file'
@@ -183,7 +183,7 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
           // onChange={handleChange}
           className='file:border-0 file:font-sans file:bg-gray-50 file:text-gray-800 file:text-sm file:font-medium file:py-2 file:px-4 file:rounded-xl file:mr-4'
         />
-      </div>
+      </div> */}
       <button className='mt-4 py-2 text-xl font-bold rounded-2xl bg-green-300 text-gray-800'>
         Sign up
       </button>

@@ -2,6 +2,7 @@ const express = require('express');
 const spotifyRouter = express.Router();
 require('dotenv').config();
 const axios = require('axios');
+const User = require('../models/user');
 
 // Auth credentials for Spotify
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -52,6 +53,11 @@ const spotifyAxios = axios.create({
   },
 });
 
+// Global variables to store tokens in until they are saved to database
+global.spotify_access_token = '';
+global.spotify_refresh_token = '';
+global.spotify_expires_in = '';
+
 // Auth code from previous route is exchanged for access token
 spotifyRouter.get('/auth/callback', (req, res) => {
   const code = req.query.code;
@@ -64,10 +70,23 @@ spotifyRouter.get('/auth/callback', (req, res) => {
 
   spotifyAxios
     .post('api/token', form)
-    .then(res => console.log(res))
+    .then(res => {
+      const { access_token, refresh_token, expires_in } = res.data;
+      spotify_access_token = access_token;
+      spotify_refresh_token = refresh_token;
+      spotify_expires_in = expires_in;
+    })
     .catch(err => console.log(err));
 
   res.redirect('http://127.0.0.1:5173');
+});
+
+spotifyRouter.get('/auth/token', (req, res) => {
+  res.json({
+    access_token: spotify_access_token,
+    refresh_token: spotify_refresh_token,
+    expires_in: spotify_expires_in,
+  });
 });
 
 module.exports = spotifyRouter;

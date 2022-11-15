@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Eye, EyeOff } from 'react-feather';
+import { useEffect } from 'react';
 
 const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   const initInputs = {
@@ -67,11 +68,17 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
 
   const navigate = useNavigate();
 
-  const handleSignup = e => {
+  const handleSignup = async e => {
     e.preventDefault();
-    signup(formInputs);
-    if (token) navigate('/spotify');
+    await signup(formInputs);
+    // if (token) navigate('/spotify');
   };
+
+  useEffect(() => {
+    if (token) {
+      navigate('/spotify');
+    }
+  }, [token]);
 
   const [showPassword, setShowPassword] = useState(false);
 

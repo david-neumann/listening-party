@@ -71,7 +71,6 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   const handleSignup = async e => {
     e.preventDefault();
     await signup(formInputs);
-    // if (token) navigate('/spotify');
   };
 
   useEffect(() => {

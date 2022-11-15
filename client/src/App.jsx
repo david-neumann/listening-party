@@ -9,22 +9,33 @@ import Profile from './pages/Profile';
 import Search from './pages/Search';
 import RecentlyPlayed from './pages/RecentlyPlayed';
 import ProtectedRoute from './components/ProtectedRoute';
+import BypassRoute from './components/BypassRoute';
 import { UserAuthContext } from './context/userAuthContext';
 
 const App = () => {
   const { userAuthState } = useContext(UserAuthContext);
-  const { token } = userAuthState;
+  const { token, user } = userAuthState;
+  const spotifyAccessToken = user.spotifyAuth
+    ? user.spotifyAuth.access_token
+    : '';
 
   return (
     <div className='App h-full text-zinc-50'>
       <Routes>
         <Route path='/signup' element={<SignUp />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/spotify' element={<SpotifyAuth />} />
+        <Route
+          path='/spotify'
+          element={
+            <BypassRoute token={spotifyAccessToken} path='/'>
+              <SpotifyAuth />
+            </BypassRoute>
+          }
+        />
         <Route
           path='/'
           element={
-            <ProtectedRoute token={token}>
+            <ProtectedRoute token={token} path='/signup'>
               <Home />
             </ProtectedRoute>
           }

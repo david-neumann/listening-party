@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Eye, EyeOff } from 'react-feather';
 
@@ -23,11 +23,14 @@ const LoginForm = ({ token, login, errMsg, resetAuthErr }) => {
   const handleLogin = e => {
     e.preventDefault();
     login(formInputs);
+  };
+
+  useEffect(() => {
     if (token) {
       navigate('/spotify');
       resetAuthErr();
     }
-  };
+  }, [token]);
 
   const [showPassword, setShowPassword] = useState(false);
 

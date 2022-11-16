@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import ProfileCard from '../components/ProfileCard';
-import ProfileTile from '../components/ProfileTile';
-import PageTitle from '../components/PageTitle';
-import { UserAuthContext } from '../context/userAuthContext';
+import ProfileCard from './ProfileCard';
+import ProfileTile from './ProfileTile';
+import PageTitle from '../utils/PageTitle';
+import { UserAuthContext } from '../userAuth/userAuthContext';
 import { LogOut } from 'react-feather';
 
 const Profile = () => {

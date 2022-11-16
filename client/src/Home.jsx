@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import axios from 'axios';
-import { UserAuthContext } from '../context/userAuthContext';
-import { UserContext } from '../context/userContext';
-import BottomNav from '../components/BottomNav';
+import { UserAuthContext } from './userAuth/userAuthContext';
+import { UserContext } from './userContext';
+import BottomNav from './components/BottomNav';
 
 const Home = () => {
   // Retrieve Spotify tokens from server after user auth and store in state

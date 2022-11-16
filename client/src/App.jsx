@@ -1,16 +1,16 @@
 import { useContext, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
-import SpotifyAuth from './pages/SpotifyAuth';
-import Home from './pages/Home';
-import Feed from './pages/Feed';
-import Profile from './pages/Profile';
-import Search from './pages/Search';
-import RecentlyPlayed from './pages/RecentlyPlayed';
-import ProtectedRoute from './components/ProtectedRoute';
-import BypassRoute from './components/BypassRoute';
-import { UserAuthContext } from './context/userAuthContext';
+import SignUp from './userAuth/signup/SignUp';
+import Login from './userAuth/login/Login';
+import SpotifyAuth from './userAuth/SpotifyAuth';
+import Home from './Home';
+import Feed from './feed/Feed';
+import Profile from './profile/Profile';
+import Search from './search/Search';
+import RecentlyPlayed from './recentlyPlayed/RecentlyPlayed';
+import ProtectedRoute from './utils/ProtectedRoute';
+import BypassRoute from './utils/BypassRoute';
+import { UserAuthContext } from './userAuth/userAuthContext';
 
 const App = () => {
   const { userAuthState } = useContext(UserAuthContext);

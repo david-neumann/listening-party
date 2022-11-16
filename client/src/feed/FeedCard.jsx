@@ -1,4 +1,4 @@
-import StrongLink from './StrongLink';
+import StrongLink from '../utils/StrongLink';
 
 const FeedCard = ({ hasReview }) => {
   return (

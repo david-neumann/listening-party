@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserAuthContext } from '../context/userAuthContext';
-import LoginForm from '../components/LoginForm';
+import { UserAuthContext } from '../userAuthContext';
+import LoginForm from './LoginForm';
 
 const Login = () => {
   const { userAuthState, login, errMsg, resetAuthErr } =

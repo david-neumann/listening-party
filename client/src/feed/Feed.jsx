@@ -1,5 +1,5 @@
-import FeedCard from '../components/FeedCard';
-import PageTitle from '../components/PageTitle';
+import FeedCard from './FeedCard';
+import PageTitle from '../utils/PageTitle';
 
 const Feed = () => {
   return (

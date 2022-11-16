@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
-import { UserContext } from '../context/userContext';
-import SongCard from '../components/SongCard';
-import PageTitle from '../components/PageTitle';
+import { UserContext } from '../userContext';
+import SongCard from './SongCard';
+import PageTitle from '../utils/PageTitle';
 
 const RecentlyPlayed = () => {
   const { getRecentlyPlayed, recentlyPlayed } = useContext(UserContext);

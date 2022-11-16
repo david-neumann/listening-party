@@ -64,7 +64,7 @@ const UserAuthContextProvider = props => {
   const handleAuthErr = errMsg => setErrMsg(errMsg);
   const resetAuthErr = () => setErrMsg('');
 
-  // Create instance of Axios and attach jwt to headers
+  // Create instance of Axios and attach jwt to headers so Spotify tokens can be attached to user in DB
   const spotifyAxios = axios.create();
 
   spotifyAxios.interceptors.request.use(config => {

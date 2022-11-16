@@ -14,7 +14,7 @@ userRouter.route('/').put((req, res, next) => {
         return next(err);
       }
 
-      return res.status(201).send(updatedUser);
+      return res.status(201).send(updatedUser.withoutPassword());
     }
   );
 });

@@ -1,7 +1,19 @@
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../context/userContext';
 import SongCard from '../components/SongCard';
 import PageTitle from '../components/PageTitle';
 
 const RecentlyPlayed = () => {
+  const { getRecentlyPlayed, recentlyPlayed } = useContext(UserContext);
+
+  useEffect(() => {
+    getRecentlyPlayed();
+  }, []);
+
+  const renderedRecentlyPlayed = recentlyPlayed.map((song, index) => (
+    <SongCard key={index} {...song} />
+  ));
+
   const spanStyles = 'bg-green-300 text-gray-800 font-semibold';
 
   return (
@@ -19,7 +31,7 @@ const RecentlyPlayed = () => {
           </span>
         </div>
       </header>
-      <SongCard />
+      {renderedRecentlyPlayed}
     </>
   );
 };

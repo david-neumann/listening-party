@@ -1,6 +1,11 @@
 import { ThumbsUp, ThumbsDown } from 'react-feather';
 
-const SongCard = ({ track }) => {
+const SongCard = ({
+  track,
+  setSelectedSongData,
+  setShowReviewModal,
+  setRatingText,
+}) => {
   const { album, artists, name, duration_ms, external_urls } = track;
   const { url } = album.images[0];
   const { release_date } = album;
@@ -16,6 +21,18 @@ const SongCard = ({ track }) => {
   };
 
   const songLength = convertMsToMinSec(duration_ms);
+
+  const rateSong = ratingText => {
+    setRatingText(ratingText);
+    setSelectedSongData({
+      songTitle: name,
+      artistName: artists[0].name,
+      albumName: album.name,
+      releaseYear,
+      songDuration: duration_ms,
+    });
+    setShowReviewModal(true);
+  };
 
   return (
     <section className='bg-gray-700 p-4 rounded-5xl mb-4'>
@@ -37,9 +54,25 @@ const SongCard = ({ track }) => {
         </div>
       </div>
       <div className='flex items-center justify-around'>
-        <ThumbsUp size={28} strokeWidth={2} color='#f9fafb' />
-        <ThumbsDown size={28} strokeWidth={2} color='#f9fafb' />
-        <a href={external_urls.spotify}>
+        <ThumbsUp
+          size={40}
+          strokeWidth={2}
+          color='#f9fafb'
+          onClick={() => rateSong('like')}
+          className='p-2 rounded-2xl hover:bg-green-500 cursor-pointer'
+        />
+        <ThumbsDown
+          size={40}
+          strokeWidth={2}
+          color='#f9fafb'
+          onClick={() => rateSong('dislike')}
+          className='p-2 rounded-2xl cursor-pointer hover:bg-red-500'
+        />
+        <a
+          href={external_urls.spotify}
+          target='_blank'
+          rel='noreferrer noopener'
+        >
           <img src='/spotify_icon.svg' alt='Spotify icon' className='w-8' />
         </a>
       </div>

@@ -32,9 +32,9 @@ const Home = () => {
 
   return spotifyTokens ? (
     <div className='flex flex-col min-h-full'>
-      <main className='p-6 pb-24'>
+      <div className='p-6 pb-24'>
         <Outlet />
-      </main>
+      </div>
       <BottomNav />
     </div>
   ) : (

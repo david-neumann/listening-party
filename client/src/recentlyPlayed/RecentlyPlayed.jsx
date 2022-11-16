@@ -1,6 +1,7 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../userContext';
 import SongCard from './SongCard';
+import ReviewModal from './ReviewModal';
 import PageTitle from '../utils/PageTitle';
 
 const RecentlyPlayed = () => {
@@ -10,28 +11,42 @@ const RecentlyPlayed = () => {
     getRecentlyPlayed();
   }, []);
 
-  const renderedRecentlyPlayed = recentlyPlayed.map((song, index) => (
-    <SongCard key={index} {...song} />
-  ));
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [ratingText, setRatingText] = useState('');
+  const [reviewText, setReviewText] = useState('');
+  const [selectedSongData, setSelectedSongData] = useState({
+    songTitle: '',
+    artistName: '',
+    albumName: '',
+    releaseYear: '',
+    songDuration: '',
+  });
 
-  const spanStyles = 'bg-green-300 text-gray-800 font-semibold';
+  const renderedRecentlyPlayed = recentlyPlayed.map((song, index) => (
+    <SongCard
+      key={index}
+      {...song}
+      setShowReviewModal={setShowReviewModal}
+      setSelectedSongData={setSelectedSongData}
+      setRatingText={setRatingText}
+    />
+  ));
 
   return (
     <>
       <header className='mb-8'>
         <PageTitle marginBottom={4}>What you're listening to</PageTitle>
-        <div className='flex gap-x-3 justify-center'>
-          <span
-            className={`py-2 ${spanStyles} rounded-xl w-[80px] text-center text-sm`}
-          >
-            Recent
-          </span>
-          <span className='py-2 bg-gray-700 rounded-xl w-[80px] text-center text-sm'>
-            Top
-          </span>
-        </div>
       </header>
-      {renderedRecentlyPlayed}
+      <main>{renderedRecentlyPlayed}</main>
+      {showReviewModal && (
+        <ReviewModal
+          setShowReviewModal={setShowReviewModal}
+          selectedSongData={selectedSongData}
+          ratingText={ratingText}
+          reviewText={reviewText}
+          setReviewText={setReviewText}
+        />
+      )}
     </>
   );
 };

@@ -55,7 +55,7 @@ const UserContextProvider = props => {
       const res = await spotifyAxios.get('/me/player/recently-played?limit=20');
       setRecentlyPlayed(res.data.items);
     } catch (err) {
-      console.log(err);
+      console.dir(err);
     }
   };
 

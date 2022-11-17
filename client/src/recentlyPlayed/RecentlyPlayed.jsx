@@ -1,15 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../userContext';
+import { SpotifyContext } from '../spotifyContext';
 import SongCard from './SongCard';
 import ReviewModal from './ReviewModal';
 import PageTitle from '../utils/PageTitle';
 
 const RecentlyPlayed = () => {
-  const { getRecentlyPlayed, recentlyPlayed } = useContext(UserContext);
-
-  useEffect(() => {
-    getRecentlyPlayed();
-  }, []);
+  const { recentlyPlayed } = useContext(SpotifyContext);
 
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [ratingText, setRatingText] = useState('');

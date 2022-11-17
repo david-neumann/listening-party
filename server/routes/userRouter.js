@@ -19,4 +19,15 @@ userRouter.route('/').put((req, res, next) => {
   );
 });
 
+userRouter.route('/:userId').get((req, res, next) => {
+  User.find({ user: req.params.userId }, (err, userData) => {
+    if (err) {
+      res.status(500);
+      return next(err);
+    }
+
+    return res.status(200).send(userData);
+  });
+});
+
 module.exports = userRouter;

@@ -14,9 +14,9 @@ const userSchema = new Schema({
     required: true,
   },
   spotifyAuth: {
-    access_token: String,
-    refresh_token: String,
-    expires_in: Number,
+    accessToken: String,
+    refreshToken: String,
+    expiresIn: Number,
   },
   followers: [
     {

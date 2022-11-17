@@ -12,16 +12,17 @@ const ReviewModal = ({
 
   const [showReviewInput, setShowReviewInput] = useState(false);
 
-  const addReview = () => {
-    setShowReviewInput(true);
-  };
-  const dontAddReview = () => {
-    setShowReviewModal(false);
-  };
-
   const handleChange = e => {
     const { value } = e.target;
     setReviewText(value);
+  };
+
+  const addReview = () => {
+    setShowReviewInput(true);
+  };
+
+  const dontAddReview = () => {
+    setShowReviewModal(false);
   };
 
   return (

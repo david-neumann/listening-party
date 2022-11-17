@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { UserAuthContextProvider } from './userAuth/userAuthContext';
 import { UserContextProvider } from './userContext';
+import { SpotifyContextProvider } from './spotifyContext';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -11,7 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <UserAuthContextProvider>
         <UserContextProvider>
-          <App />
+          <SpotifyContextProvider>
+            <App />
+          </SpotifyContextProvider>
         </UserContextProvider>
       </UserAuthContextProvider>
     </BrowserRouter>

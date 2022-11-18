@@ -39,6 +39,8 @@ const SpotifyContextProvider = props => {
       })
       .then(res => {
         const { accessToken, expiresIn } = res.data;
+        localStorage.setItem('spotifyAccessToken', accessToken);
+        localStorage.setItem('spotifyExpiresIn', expiresIn);
         setAccessToken(accessToken);
         setExpiresIn(expiresIn);
       })

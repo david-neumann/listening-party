@@ -30,18 +30,6 @@ const userSchema = new Schema({
       ref: 'User',
     },
   ],
-  likedSongs: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: '',
-    },
-  ],
-  dislikedSongs: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: '',
-    },
-  ],
 });
 
 // Pre-save Hook to encrypt user passwords on signup

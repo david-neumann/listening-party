@@ -56,24 +56,6 @@ const SpotifyContextProvider = props => {
     return () => clearInterval(refreshTokenInterval);
   }, [refreshToken, expiresIn]);
 
-  // Add Spotify tokens to user in database
-  // May be able to just remove this as it might not be necessary to retrieve them from the database
-  const { updateUser } = useContext(UserContext);
-
-  useEffect(() => {
-    if (!accessToken) return;
-
-    const updateObj = {
-      spotifyAuth: {
-        accessToken,
-        refreshToken,
-        expiresIn,
-      },
-    };
-
-    updateUser(updateObj);
-  }, [accessToken]);
-
   // Create Axios instance for Spotify API calls
   const spotifyAxios = axios.create({
     baseURL: 'https://api.spotify.com/v1',

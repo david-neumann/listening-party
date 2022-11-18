@@ -24,13 +24,7 @@ const SongCard = ({
 
   const rateSong = ratingText => {
     setRatingText(ratingText);
-    setSelectedSongData({
-      songTitle: name,
-      artistName: artists[0].name,
-      albumName: album.name,
-      releaseYear,
-      songDuration: duration_ms,
-    });
+    setSelectedSongData(track);
     setShowReviewModal(true);
   };
 

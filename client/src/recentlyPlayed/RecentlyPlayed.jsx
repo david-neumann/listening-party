@@ -1,22 +1,18 @@
 import { useContext, useEffect, useState } from 'react';
 import { SpotifyContext } from '../spotifyContext';
+import { UserContext } from '../userContext';
 import SongCard from './SongCard';
 import ReviewModal from './ReviewModal';
 import PageTitle from '../utils/PageTitle';
 
 const RecentlyPlayed = () => {
   const { recentlyPlayed } = useContext(SpotifyContext);
+  const { addLikedSong, addDislikedSong } = useContext(UserContext);
 
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [ratingText, setRatingText] = useState('');
   const [reviewText, setReviewText] = useState('');
-  const [selectedSongData, setSelectedSongData] = useState({
-    songTitle: '',
-    artistName: '',
-    albumName: '',
-    releaseYear: '',
-    songDuration: '',
-  });
+  const [selectedSongData, setSelectedSongData] = useState({});
 
   const renderedRecentlyPlayed = recentlyPlayed.map((song, index) => (
     <SongCard
@@ -41,6 +37,8 @@ const RecentlyPlayed = () => {
           ratingText={ratingText}
           reviewText={reviewText}
           setReviewText={setReviewText}
+          addLikedSong={addLikedSong}
+          addDislikedSong={addDislikedSong}
         />
       )}
     </>

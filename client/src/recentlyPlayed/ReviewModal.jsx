@@ -7,8 +7,10 @@ const ReviewModal = ({
   ratingText,
   reviewText,
   setReviewText,
+  addLikedSong,
+  addDislikedSong,
 }) => {
-  const { songTitle, artistName } = selectedSongData;
+  const { name, artists } = selectedSongData;
 
   const [showReviewInput, setShowReviewInput] = useState(false);
 
@@ -22,6 +24,15 @@ const ReviewModal = ({
   };
 
   const dontAddReview = () => {
+    setShowReviewModal(false);
+  };
+
+  const saveSongRating = () => {
+    if (ratingText === 'like') {
+      addLikedSong(selectedSongData, reviewText);
+    } else if (ratingText === 'dislike') {
+      addDislikedSong(selectedSongData, reviewText);
+    }
     setShowReviewModal(false);
   };
 
@@ -40,9 +51,9 @@ const ReviewModal = ({
         />
         <p className='mb-4 font-light'>
           You've {ratingText}d{' '}
-          <span className='font-bold text-green-300'>{songTitle}</span> by{' '}
-          <span className='font-bold text-green-300'>{artistName}</span>. Would
-          you like to add a short review?
+          <span className='font-bold text-green-300'>{name}</span> by{' '}
+          <span className='font-bold text-green-300'>{artists[0].name}</span>.
+          Would you like to add a short review?
         </p>
         {!showReviewInput && (
           <div className='flex justify-center items-center gap-x-4'>
@@ -69,7 +80,10 @@ const ReviewModal = ({
               maxLength={280}
               className='w-full h-[170px] rounded-xl mb-4 p-3 text-sm text-gray-800 resize-none'
             ></textarea>
-            <button className='w-full py-2 bg-green-300 text-gray-800 font-medium rounded-xl hover:bg-green-400'>
+            <button
+              onClick={saveSongRating}
+              className='w-full py-2 bg-green-300 text-gray-800 font-medium rounded-xl hover:bg-green-400'
+            >
               Save Review
             </button>
           </div>

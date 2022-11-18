@@ -13,26 +13,42 @@ userAxios.interceptors.request.use(config => {
 const UserContext = createContext();
 
 const UserContextProvider = props => {
-  const getUserData = async userId => {
-    try {
-      const res = await userAxios.get(`/server/api/users/${userId}`);
-      return res.data;
-    } catch (err) {
-      console.dir(err);
-    }
+  const [userFeed, setUserFeed] = useState([]);
+
+  const addLikedSong = (likedSong, review) => {
+    const reqBodyObj = {
+      spotifyData: likedSong,
+      review,
+    };
+    userAxios
+      .post('/server/api/likedsong', reqBodyObj)
+      .then(res => {
+        setUserFeed(prevFeed => [...prevFeed, res.data]);
+      })
+      .catch(err => console.dir(err));
   };
 
-  const updateUser = async userUpdates => {
-    try {
-      const res = await userAxios.put('/server/api/users', userUpdates);
-      return res.data;
-    } catch (err) {
-      console.dir(err);
-    }
+  const addDislikedSong = (dislikedSong, review) => {
+    const reqBodyObj = {
+      spotifyData: dislikedSong,
+      review,
+    };
+    userAxios
+      .post('/server/api/dislikedsong', reqBodyObj)
+      .then(res => {
+        setUserFeed(prevFeed => [...prevFeed, res.data]);
+      })
+      .catch(err => console.dir(err));
   };
 
   return (
-    <UserContext.Provider value={{ getUserData, updateUser }}>
+    <UserContext.Provider
+      value={{
+        userFeed,
+        addLikedSong,
+        addDislikedSong,
+      }}
+    >
       {props.children}
     </UserContext.Provider>
   );

@@ -13,11 +13,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  spotifyAuth: {
-    accessToken: String,
-    refreshToken: String,
-    expiresIn: Number,
-  },
   followers: [
     {
       type: Schema.Types.ObjectId,

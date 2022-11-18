@@ -7,17 +7,27 @@ const SpotifyContext = createContext();
 
 const SpotifyContextProvider = props => {
   // All things tokens
-  const [accessToken, setAccessToken] = useState('');
-  const [refreshToken, setRefreshToken] = useState('');
-  const [expiresIn, setExpiresIn] = useState('');
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem('spotifyAccessToken') || ''
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    localStorage.getItem('spotifyRefreshToken') || ''
+  );
+  const [expiresIn, setExpiresIn] = useState(
+    localStorage.getItem('spotifyExpiresIn') || ''
+  );
 
   const getSpotifyTokens = code => {
     axios
       .post('http://localhost:7070/server/spotify/auth/token', { code })
       .then(res => {
-        setAccessToken(res.data.accessToken);
-        setRefreshToken(res.data.refreshToken);
-        setExpiresIn(res.data.expiresIn);
+        const { accessToken, refreshToken, expiresIn } = res.data;
+        localStorage.setItem('spotifyAccessToken', accessToken);
+        localStorage.setItem('spotifyRefreshToken', refreshToken);
+        localStorage.setItem('spotifyExpiresIn', expiresIn);
+        setAccessToken(accessToken);
+        setRefreshToken(refreshToken);
+        setExpiresIn(expiresIn);
       })
       .catch(err => console.dir(err));
   };
@@ -28,8 +38,9 @@ const SpotifyContextProvider = props => {
         refreshToken,
       })
       .then(res => {
-        setAccessToken(res.data.accessToken);
-        setExpiresIn(res.data.expiresIn);
+        const { accessToken, expiresIn } = res.data;
+        setAccessToken(accessToken);
+        setExpiresIn(expiresIn);
       })
       .catch(err => console.log(err));
   };
@@ -44,6 +55,8 @@ const SpotifyContextProvider = props => {
   }, [refreshToken, expiresIn]);
 
   // Add Spotify tokens to user in database
+  const { updateUser } = useContext(UserContext);
+
   useEffect(() => {
     if (!accessToken) return;
 

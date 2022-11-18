@@ -19,6 +19,7 @@ userRouter.route('/').put((req, res, next) => {
   );
 });
 
+// Get user by id
 userRouter.route('/:userId').get((req, res, next) => {
   User.find({ user: req.params.userId }, (err, userData) => {
     if (err) {

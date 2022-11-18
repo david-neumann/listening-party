@@ -1,7 +1,7 @@
 import { useState, createContext, useContext, useEffect } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 import { UserContext } from './userContext';
-import { UserAuthContext } from './userAuth/userAuthContext';
 
 const SpotifyContext = createContext();
 
@@ -55,6 +55,7 @@ const SpotifyContextProvider = props => {
   }, [refreshToken, expiresIn]);
 
   // Add Spotify tokens to user in database
+  // May be able to just remove this as it might not be necessary to retrieve them from the database
   const { updateUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -98,6 +99,35 @@ const SpotifyContextProvider = props => {
     }
   }, [accessToken]);
 
+  // Search with Spotify API
+  const [searchResults, setSearchResults] = useState([]);
+
+  const getSearchResults = _.memoize(
+    async (searchTerm, searchType, searchLimit) => {
+      const searchParam = searchTerm.replaceAll(' ', '%20');
+      try {
+        const res = await spotifyAxios.get(
+          `/search?q=${searchParam}&type=${searchType}&limit=${searchLimit}`
+        );
+        return res;
+      } catch (err) {
+        console.dir(err);
+        return [];
+      }
+    }
+  );
+
+  const onSearchSubmit = async (searchTerm, searchType, searchLimit) => {
+    const resultsArray = await getSearchResults(
+      searchTerm,
+      searchType,
+      searchLimit
+    );
+    setSearchResults(resultsArray.data.tracks.items);
+  };
+
+  const clearResults = () => setSearchResults([]);
+
   return (
     <SpotifyContext.Provider
       value={{
@@ -106,6 +136,9 @@ const SpotifyContextProvider = props => {
         expiresIn,
         getSpotifyTokens,
         recentlyPlayed,
+        searchResults,
+        onSearchSubmit,
+        clearResults,
       }}
     >
       {props.children}

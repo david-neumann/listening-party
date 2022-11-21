@@ -15,15 +15,55 @@ const UserContext = createContext();
 const UserContextProvider = props => {
   // Data
   const [allUsers, setAllUsers] = useState([]);
-  const currentUserId = JSON.parse(localStorage.getItem('user'))._id;
+  const currentUserId = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user'))._id
+    : '';
   const currentUserData = allUsers.filter(
     user => user._id === currentUserId
   )[0];
+  const userFollowingArray = currentUserData
+    ? [currentUserId, ...currentUserData.following]
+    : [];
 
   const [userFeed, setUserFeed] = useState([]);
   const [userSearchResults, setUserSearchResults] = useState([]);
 
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  useEffect(() => {
+    constructUserFeed(userFollowingArray);
+  }, [currentUserData]);
+
   // Functions
+  const getLikedSongs = async userArray => {
+    const res = await userAxios.put('/server/api/likedsong', userArray);
+    console.log(res.data);
+    return res.data;
+  };
+
+  const getDislikedSongs = async userArray => {
+    const res = await userAxios.put('/server/api/dislikedsong', userArray);
+    console.log(res.data);
+    return res.data;
+  };
+
+  const constructUserFeed = async userArray => {
+    const likedPromise = getLikedSongs(userArray);
+    const dislikedPromise = getDislikedSongs(userArray);
+    const [likedSongs, dislikedSongs] = await Promise.all([
+      likedPromise,
+      dislikedPromise,
+    ]);
+
+    const userFeedArray = [...likedSongs, ...dislikedSongs];
+    const sortedArray = userFeedArray.sort((a, b) =>
+      a.createdAt < b.createdAt ? 1 : -1
+    );
+    setUserFeed(sortedArray);
+  };
+
   const addLikedSong = (likedSong, review) => {
     const reqBodyObj = {
       spotifyData: likedSong,
@@ -32,7 +72,13 @@ const UserContextProvider = props => {
     userAxios
       .post('/server/api/likedsong', reqBodyObj)
       .then(res => {
-        setUserFeed(prevFeed => [...prevFeed, res.data]);
+        setUserFeed(prevFeed => {
+          const feedArray = [...prevFeed, res.data];
+          const sortedArray = feedArray.sort((a, b) =>
+            a.createdAt < b.createdAt ? 1 : -1
+          );
+          return sortedArray;
+        });
       })
       .catch(err => console.dir(err));
   };
@@ -65,10 +111,6 @@ const UserContextProvider = props => {
       .then(res => setAllUsers(res.data))
       .catch(err => console.dir(err));
   };
-
-  useEffect(() => {
-    getAllUsers();
-  }, []);
 
   // Follow a user
   const followUser = followedUserId => {

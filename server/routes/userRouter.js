@@ -2,9 +2,20 @@ const express = require('express');
 const userRouter = express.Router();
 const User = require('../models/user');
 
+// Get all users
+userRouter.get('/', (req, res, next) => {
+  User.find((err, users) => {
+    if (err) {
+      res.status(500);
+      return next(err);
+    }
+
+    return res.status(200).send(users);
+  });
+});
+
 // Search for users
 userRouter.get('/search', (req, res, next) => {
-  // User.createIndex({ username: 'text' });
   User.find(
     { $text: { $search: req.query.q } },
     { sort: { score: { $meta: 'textScore' } } },
@@ -13,17 +24,20 @@ userRouter.get('/search', (req, res, next) => {
         res.status(500);
         return next(err);
       }
+      const foundUsersWithoutPassword = foundUsers.map(user =>
+        user.withoutPassword()
+      );
 
-      return res.status(200).send(foundUsers);
+      return res.status(200).send(foundUsersWithoutPassword);
     }
   );
 });
 
-// Update user
-userRouter.route('/').put((req, res, next) => {
-  User.findByIdAndUpdate(
+// Follow a user
+userRouter.put('/follow/:followedUserId', (req, res, next) => {
+  User.findOneAndUpdate(
     { _id: req.auth._id },
-    req.body,
+    { $addToSet: { following: req.params.followedUserId } },
     { new: true },
     (err, updatedUser) => {
       if (err) {
@@ -31,21 +45,48 @@ userRouter.route('/').put((req, res, next) => {
         return next(err);
       }
 
-      return res.status(201).send(updatedUser.withoutPassword());
+      User.findOneAndUpdate(
+        { _id: req.params.followedUserId },
+        { $addToSet: { followers: req.auth._id } },
+        (err, updatedUser) => {
+          if (err) {
+            res.status(500);
+            return next(err);
+          }
+        }
+      );
+
+      res.status(201).send(updatedUser);
     }
   );
 });
 
-// Get user by id
-userRouter.route('/:userId').get((req, res, next) => {
-  User.find({ user: req.params.userId }, (err, userData) => {
-    if (err) {
-      res.status(500);
-      return next(err);
-    }
+// Unfollow a user
+userRouter.put('/unfollow/:unfollowedUserId', (req, res, next) => {
+  User.findOneAndUpdate(
+    { _id: req.auth._id },
+    { $pull: { following: req.params.unfollowedUserId } },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        res.status(500);
+        return next(err);
+      }
 
-    return res.status(200).send(userData);
-  });
+      User.findOneAndUpdate(
+        { _id: req.params.unfollowedUserId },
+        { $pull: { followers: req.auth._id } },
+        (err, updatedUser) => {
+          if (err) {
+            res.status(500);
+            return next(err);
+          }
+        }
+      );
+
+      res.status(201).send(updatedUser);
+    }
+  );
 });
 
 module.exports = userRouter;

@@ -2,30 +2,33 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
-const userSchema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    lowercase: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  followers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      lowercase: true,
+      unique: true,
     },
-  ],
-  following: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
+    password: {
+      type: String,
+      required: true,
     },
-  ],
-}).index({ username: 'text' });
+    followers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    following: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+  },
+  { timestamps: true }
+).index({ username: 'text' });
 
 // Pre-save Hook to encrypt user passwords on signup
 userSchema.pre('save', function (next) {

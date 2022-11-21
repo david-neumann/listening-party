@@ -29,6 +29,10 @@ const SearchBar = ({
     }
   }, [searchTerm]);
 
+  useEffect(() => {
+    setDebouncedTerm('');
+  }, [searchType]);
+
   return (
     <div className='relative mb-4'>
       <input

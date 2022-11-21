@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Create Axios instance and attach jwt to headers
@@ -51,6 +51,36 @@ const UserContextProvider = props => {
       .catch(err => console.dir(err));
   };
 
+  // Get all users
+  const [allUsers, setAllUsers] = useState([]);
+
+  const getAllUsers = () => {
+    userAxios
+      .get('/server/api/users')
+      .then(res => setAllUsers(res.data))
+      .catch(err => console.dir(err));
+  };
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  // Follow a user
+  const followUser = followedUserId => {
+    userAxios
+      .put(`/server/api/users/follow/${followedUserId}`)
+      .then(res => getAllUsers())
+      .catch(err => console.dir(err));
+  };
+
+  // Unfollow a user
+  const unfollowUser = unfollowedUserId => {
+    userAxios
+      .put(`/server/api/users/unfollow/${unfollowedUserId}`)
+      .then(res => getAllUsers())
+      .catch(err => console.dir(err));
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -60,6 +90,10 @@ const UserContextProvider = props => {
         userSearchResults,
         setUserSearchResults,
         searchUsers,
+        allUsers,
+        getAllUsers,
+        followUser,
+        unfollowUser,
       }}
     >
       {props.children}

@@ -8,10 +8,21 @@ import SongCard from '../recentlyPlayed/SongCard';
 import UserCard from './UserCard';
 
 const Search = () => {
-  const { userSearchResults, setUserSearchResults, searchUsers } =
-    useContext(UserContext);
+  const {
+    userSearchResults,
+    setUserSearchResults,
+    searchUsers,
+    allUsers,
+    followUser,
+    unfollowUser,
+  } = useContext(UserContext);
   const { searchResults, onSearchSubmit, clearResults } =
     useContext(SpotifyContext);
+
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const { _id } = currentUser;
+  const currentUserFollowing = allUsers.filter(user => user._id === _id)[0]
+    .following;
 
   const [searchType, setSearchType] = useState('track');
   const [searchResultsLimit, setSearchResultsLimit] = useState(20);
@@ -31,9 +42,18 @@ const Search = () => {
     <SongCard key={index} track={result} />
   ));
 
-  const renderedUserSearchResults = userSearchResults.map((user, index) => (
-    <UserCard key={index} {...user} />
-  ));
+  const renderedUserSearchResults = userSearchResults.map((user, index) => {
+    const followed = currentUserFollowing.includes(user._id);
+    return (
+      <UserCard
+        key={index}
+        {...user}
+        followed={followed}
+        followUser={followUser}
+        unfollowUser={unfollowUser}
+      />
+    );
+  });
 
   const displayedResults =
     searchType === 'track' ? renderedSearchResults : renderedUserSearchResults;
@@ -63,15 +83,6 @@ const Search = () => {
           >
             songs
           </SearchTag>
-          {/* <SearchTag
-            isActive={searchType === 'artist'}
-            searchType='artist'
-            handleSearchTypeClick={handleSearchTypeClick}
-            placeholderText='Search for artists on Spotify'
-            searchLimit={10}
-          >
-            artists
-          </SearchTag> */}
           <SearchTag
             isActive={searchType === 'users'}
             searchType='users'

@@ -94,12 +94,17 @@ const UserContextProvider = props => {
     userAxios
       .post('/server/api/dislikedsong', reqBodyObj)
       .then(res => {
-        setUserFeed(prevFeed => [...prevFeed, res.data]);
+        setUserFeed(prevFeed => {
+          const feedArray = [...prevFeed, res.data];
+          const sortedArray = feedArray.sort((a, b) =>
+            a.createdAt < b.createdAt ? 1 : -1
+          );
+          return sortedArray;
+        });
       })
       .catch(err => console.dir(err));
   };
 
-  // Search for users
   const searchUsers = searchTerm => {
     userAxios
       .get(`/server/api/users/search?q=${searchTerm}`)
@@ -107,7 +112,6 @@ const UserContextProvider = props => {
       .catch(err => console.dir(err));
   };
 
-  // Get all users
   const getAllUsers = () => {
     userAxios
       .get('/server/api/users')
@@ -115,7 +119,6 @@ const UserContextProvider = props => {
       .catch(err => console.dir(err));
   };
 
-  // Follow a user
   const followUser = followedUserId => {
     userAxios
       .put(`/server/api/users/follow/${followedUserId}`)
@@ -123,7 +126,6 @@ const UserContextProvider = props => {
       .catch(err => console.dir(err));
   };
 
-  // Unfollow a user
   const unfollowUser = unfollowedUserId => {
     userAxios
       .put(`/server/api/users/unfollow/${unfollowedUserId}`)

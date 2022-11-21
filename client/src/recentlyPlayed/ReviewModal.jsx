@@ -25,6 +25,7 @@ const ReviewModal = ({
 
   const dontAddReview = () => {
     setShowReviewModal(false);
+    saveSongRating();
   };
 
   const saveSongRating = () => {
@@ -49,12 +50,16 @@ const ReviewModal = ({
           className='fixed -top-2 -right-2 p-2 bg-gray-800 hover:bg-gray-900 cursor-pointer rounded-2xl'
           onClick={() => setShowReviewModal(false)}
         />
-        <p className='mb-4 font-light'>
-          You've {ratingText}d{' '}
-          <span className='font-bold text-green-300'>{name}</span> by{' '}
-          <span className='font-bold text-green-300'>{artists[0].name}</span>.
-          Would you like to add a short review?
-        </p>
+        {!showReviewInput ? (
+          <p className='mb-4 font-light'>
+            You've {ratingText}d{' '}
+            <span className='font-bold text-green-300'>{name}</span> by{' '}
+            <span className='font-bold text-green-300'>{artists[0].name}</span>.
+            Would you like to add a short review?
+          </p>
+        ) : (
+          <p className='mb-4 font-light'>Add your review below:</p>
+        )}
         {!showReviewInput && (
           <div className='flex justify-center items-center gap-x-4'>
             <span

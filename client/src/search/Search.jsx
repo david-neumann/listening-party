@@ -6,6 +6,7 @@ import SearchTag from './SearchTag';
 import PageTitle from '../utils/PageTitle';
 import SongCard from '../recentlyPlayed/SongCard';
 import UserCard from './UserCard';
+import ReviewModal from '../recentlyPlayed/ReviewModal';
 
 const Search = () => {
   const {
@@ -15,6 +16,8 @@ const Search = () => {
     currentUserData,
     followUser,
     unfollowUser,
+    addLikedSong,
+    addDislikedSong,
   } = useContext(UserContext);
   const { searchResults, onSearchSubmit, clearResults } =
     useContext(SpotifyContext);
@@ -27,6 +30,11 @@ const Search = () => {
     'Search for songs on Spotify'
   );
 
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [ratingText, setRatingText] = useState('');
+  const [reviewText, setReviewText] = useState('');
+  const [selectedSongData, setSelectedSongData] = useState({});
+
   const handleSearchTypeClick = (searchType, placeholderText, searchLimit) => {
     setSearchType(searchType);
     setSearchPlaceholderText(placeholderText);
@@ -36,7 +44,13 @@ const Search = () => {
   };
 
   const renderedSearchResults = searchResults.map((result, index) => (
-    <SongCard key={index} track={result} />
+    <SongCard
+      key={index}
+      track={result}
+      setShowReviewModal={setShowReviewModal}
+      setSelectedSongData={setSelectedSongData}
+      setRatingText={setRatingText}
+    />
   ));
 
   const renderedUserSearchResults = userSearchResults.map((user, index) => {
@@ -91,6 +105,17 @@ const Search = () => {
           </SearchTag>
         </div>
         <section>{displayedResults}</section>
+        {showReviewModal && (
+          <ReviewModal
+            setShowReviewModal={setShowReviewModal}
+            selectedSongData={selectedSongData}
+            ratingText={ratingText}
+            reviewText={reviewText}
+            setReviewText={setReviewText}
+            addLikedSong={addLikedSong}
+            addDislikedSong={addDislikedSong}
+          />
+        )}
       </main>
     </>
   );

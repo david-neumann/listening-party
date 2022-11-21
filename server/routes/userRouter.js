@@ -9,8 +9,9 @@ userRouter.get('/', (req, res, next) => {
       res.status(500);
       return next(err);
     }
+    const usersWithoutPasswords = users.map(user => user.withoutPassword());
 
-    return res.status(200).send(users);
+    return res.status(200).send(usersWithoutPasswords);
   });
 });
 
@@ -24,11 +25,11 @@ userRouter.get('/search', (req, res, next) => {
         res.status(500);
         return next(err);
       }
-      const foundUsersWithoutPassword = foundUsers.map(user =>
+      const foundUsersWithoutPasswords = foundUsers.map(user =>
         user.withoutPassword()
       );
 
-      return res.status(200).send(foundUsersWithoutPassword);
+      return res.status(200).send(foundUsersWithoutPasswords);
     }
   );
 });

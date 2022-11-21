@@ -8,11 +8,7 @@ import { LogOut } from 'react-feather';
 
 const Profile = () => {
   const { logout } = useContext(UserAuthContext);
-  const { allUsers } = useContext(UserContext);
-
-  const currentUser = JSON.parse(localStorage.getItem('user'));
-  const { _id } = currentUser;
-  const currentUserData = allUsers.filter(user => user._id === _id)[0];
+  const { currentUserData } = useContext(UserContext);
 
   return (
     <>

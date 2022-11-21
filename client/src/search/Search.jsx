@@ -12,17 +12,14 @@ const Search = () => {
     userSearchResults,
     setUserSearchResults,
     searchUsers,
-    allUsers,
+    currentUserData,
     followUser,
     unfollowUser,
   } = useContext(UserContext);
   const { searchResults, onSearchSubmit, clearResults } =
     useContext(SpotifyContext);
 
-  const currentUser = JSON.parse(localStorage.getItem('user'));
-  const { _id } = currentUser;
-  const currentUserFollowing = allUsers.filter(user => user._id === _id)[0]
-    .following;
+  const currentUserFollowing = currentUserData.following;
 
   const [searchType, setSearchType] = useState('track');
   const [searchResultsLimit, setSearchResultsLimit] = useState(20);

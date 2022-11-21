@@ -13,8 +13,17 @@ userAxios.interceptors.request.use(config => {
 const UserContext = createContext();
 
 const UserContextProvider = props => {
-  const [userFeed, setUserFeed] = useState([]);
+  // Data
+  const [allUsers, setAllUsers] = useState([]);
+  const currentUserId = JSON.parse(localStorage.getItem('user'))._id;
+  const currentUserData = allUsers.filter(
+    user => user._id === currentUserId
+  )[0];
 
+  const [userFeed, setUserFeed] = useState([]);
+  const [userSearchResults, setUserSearchResults] = useState([]);
+
+  // Functions
   const addLikedSong = (likedSong, review) => {
     const reqBodyObj = {
       spotifyData: likedSong,
@@ -42,8 +51,6 @@ const UserContextProvider = props => {
   };
 
   // Search for users
-  const [userSearchResults, setUserSearchResults] = useState([]);
-
   const searchUsers = searchTerm => {
     userAxios
       .get(`/server/api/users/search?q=${searchTerm}`)
@@ -52,8 +59,6 @@ const UserContextProvider = props => {
   };
 
   // Get all users
-  const [allUsers, setAllUsers] = useState([]);
-
   const getAllUsers = () => {
     userAxios
       .get('/server/api/users')
@@ -84,6 +89,8 @@ const UserContextProvider = props => {
   return (
     <UserContext.Provider
       value={{
+        currentUserId,
+        currentUserData,
         userFeed,
         addLikedSong,
         addDislikedSong,

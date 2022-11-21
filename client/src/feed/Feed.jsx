@@ -5,8 +5,6 @@ import PageTitle from '../utils/PageTitle';
 
 const Feed = () => {
   const { userFeed, allUsers } = useContext(UserContext);
-  console.log(userFeed);
-
   const renderedFeedCards = userFeed.map((item, index) => (
     <FeedCard key={index} {...item} allUsers={allUsers} />
   ));

@@ -1,13 +1,30 @@
+import { User } from 'react-feather';
 import StrongLink from '../utils/StrongLink';
 
 const FeedCard = ({ spotifyData, review, rating, user, allUsers }) => {
   const { name, artists, external_urls } = spotifyData;
   const username = allUsers.filter(item => item._id === user)[0].username;
 
+  const colorOptions = [
+    'bg-green-300',
+    'bg-blue-300',
+    'bg-violet-300',
+    'bg-fuchsia-300',
+    'bg-rose-300',
+  ];
+
+  const bgColor = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+
   return (
-    <section className='mt-6 flex items-start gap-x-4 pb-6 border-b border-gray-700'>
-      <figure className='bg-[url("/profile.jpeg")] bg-cover bg-center w-24 aspect-square rounded-full'></figure>
-      <div className='flex-grow'>
+    <section className='mt-6 flex gap-x-4 pb-6 border-b border-gray-700'>
+      {/* <figure className={`bg-[url("/profile.jpeg")] bg-cover bg-center w-24 aspect-square rounded-full`}></figure> */}
+      <User
+        size={52}
+        strokeWidth={2}
+        color='#1f2937'
+        className={`rounded-full ${bgColor} shrink-0`}
+      />
+      <div className=''>
         <p className='font-thin mb-4'>
           <StrongLink>{username}</StrongLink> {rating}d{' '}
           <StrongLink url={external_urls.spotify}>{name}</StrongLink> by{' '}

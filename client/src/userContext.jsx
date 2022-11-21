@@ -18,6 +18,9 @@ const UserContextProvider = props => {
   const currentUserId = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user'))._id
     : '';
+  const currentUserToken = localStorage.getItem('token')
+    ? localStorage.getItem('token')
+    : '';
   const currentUserData = allUsers.filter(
     user => user._id === currentUserId
   )[0];
@@ -29,23 +32,23 @@ const UserContextProvider = props => {
   const [userSearchResults, setUserSearchResults] = useState([]);
 
   useEffect(() => {
+    if (!currentUserToken) return;
     getAllUsers();
-  }, []);
+  }, [currentUserToken]);
 
   useEffect(() => {
+    if (!currentUserToken) return;
     constructUserFeed(userFollowingArray);
-  }, [currentUserData]);
+  }, [currentUserData, currentUserToken]);
 
   // Functions
   const getLikedSongs = async userArray => {
     const res = await userAxios.put('/server/api/likedsong', userArray);
-    console.log(res.data);
     return res.data;
   };
 
   const getDislikedSongs = async userArray => {
     const res = await userAxios.put('/server/api/dislikedsong', userArray);
-    console.log(res.data);
     return res.data;
   };
 

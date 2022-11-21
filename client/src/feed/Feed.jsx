@@ -4,10 +4,11 @@ import FeedCard from './FeedCard';
 import PageTitle from '../utils/PageTitle';
 
 const Feed = () => {
-  const { userFeed } = useContext(UserContext);
+  const { userFeed, allUsers } = useContext(UserContext);
+  console.log(userFeed);
 
   const renderedFeedCards = userFeed.map((item, index) => (
-    <FeedCard key={index} {...item} />
+    <FeedCard key={index} {...item} allUsers={allUsers} />
   ));
 
   return (

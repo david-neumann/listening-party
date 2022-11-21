@@ -25,7 +25,7 @@ const userSchema = new Schema({
       ref: 'User',
     },
   ],
-});
+}).index({ username: 'text' });
 
 // Pre-save Hook to encrypt user passwords on signup
 userSchema.pre('save', function (next) {

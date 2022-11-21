@@ -7,6 +7,8 @@ const SearchBar = ({
   placeholderText,
   searchType,
   searchLimit,
+  searchUsers,
+  setUserSearchResults,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState('');
@@ -17,10 +19,13 @@ const SearchBar = ({
   }, [debouncedTerm]);
 
   useEffect(() => {
-    if (searchTerm !== '') {
+    if (searchTerm !== '' && searchType === 'track') {
       onSearchSubmit(searchTerm, searchType, searchLimit);
+    } else if (searchTerm !== '' && searchType === 'users') {
+      searchUsers(searchTerm);
     } else {
       clearResults();
+      setUserSearchResults([]);
     }
   }, [searchTerm]);
 

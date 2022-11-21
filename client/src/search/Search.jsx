@@ -1,11 +1,15 @@
 import { useContext, useState } from 'react';
 import { SpotifyContext } from '../spotifyContext';
+import { UserContext } from '../userContext';
 import SearchBar from './SearchBar';
 import SearchTag from './SearchTag';
 import PageTitle from '../utils/PageTitle';
 import SongCard from '../recentlyPlayed/SongCard';
+import UserCard from './UserCard';
 
 const Search = () => {
+  const { userSearchResults, setUserSearchResults, searchUsers } =
+    useContext(UserContext);
   const { searchResults, onSearchSubmit, clearResults } =
     useContext(SpotifyContext);
 
@@ -19,11 +23,20 @@ const Search = () => {
     setSearchType(searchType);
     setSearchPlaceholderText(placeholderText);
     setSearchResultsLimit(searchLimit);
+    setUserSearchResults([]);
+    clearResults();
   };
 
   const renderedSearchResults = searchResults.map((result, index) => (
     <SongCard key={index} track={result} />
   ));
+
+  const renderedUserSearchResults = userSearchResults.map((user, index) => (
+    <UserCard key={index} {...user} />
+  ));
+
+  const displayedResults =
+    searchType === 'track' ? renderedSearchResults : renderedUserSearchResults;
 
   return (
     <>
@@ -37,6 +50,8 @@ const Search = () => {
           placeholderText={searchPlaceholderText}
           searchType={searchType}
           searchLimit={searchResultsLimit}
+          searchUsers={searchUsers}
+          setUserSearchResults={setUserSearchResults}
         />
         <div className='flex justify-center gap-x-3 mb-6'>
           <SearchTag
@@ -67,7 +82,7 @@ const Search = () => {
             users
           </SearchTag>
         </div>
-        <section>{renderedSearchResults}</section>
+        <section>{displayedResults}</section>
       </main>
     </>
   );

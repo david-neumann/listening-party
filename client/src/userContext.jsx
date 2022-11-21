@@ -41,12 +41,25 @@ const UserContextProvider = props => {
       .catch(err => console.dir(err));
   };
 
+  // Search for users
+  const [userSearchResults, setUserSearchResults] = useState([]);
+
+  const searchUsers = searchTerm => {
+    userAxios
+      .get(`/server/api/users/search?q=${searchTerm}`)
+      .then(res => setUserSearchResults(res.data))
+      .catch(err => console.dir(err));
+  };
+
   return (
     <UserContext.Provider
       value={{
         userFeed,
         addLikedSong,
         addDislikedSong,
+        userSearchResults,
+        setUserSearchResults,
+        searchUsers,
       }}
     >
       {props.children}

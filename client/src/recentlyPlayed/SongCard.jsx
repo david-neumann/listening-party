@@ -2,6 +2,7 @@ import { ThumbsUp, ThumbsDown } from 'react-feather';
 
 const SongCard = ({
   track,
+  userRating,
   setSelectedSongData,
   setShowReviewModal,
   setRatingText,
@@ -28,6 +29,50 @@ const SongCard = ({
     setShowReviewModal(true);
   };
 
+  const determineRatingOptions = rating => {
+    switch (rating) {
+      case 'like':
+        return (
+          <ThumbsUp
+            size={40}
+            strokeWidth={2}
+            color='#22c55e'
+            className='p-2 rounded-2xl bg-green-100'
+          />
+        );
+      case 'dislike':
+        return (
+          <ThumbsDown
+            size={40}
+            strokeWidth={2}
+            color='#ef4444'
+            className='p-2 rounded-2xl bg-red-100'
+          />
+        );
+      default:
+        return (
+          <>
+            <ThumbsUp
+              size={40}
+              strokeWidth={2}
+              color='#f9fafb'
+              onClick={() => rateSong('like')}
+              className='p-2 rounded-2xl hover:bg-green-500 cursor-pointer'
+            />
+            <ThumbsDown
+              size={40}
+              strokeWidth={2}
+              color='#f9fafb'
+              onClick={() => rateSong('dislike')}
+              className='p-2 rounded-2xl cursor-pointer hover:bg-red-500'
+            />
+          </>
+        );
+    }
+  };
+
+  const renderedRatingOptions = determineRatingOptions(userRating);
+
   return (
     <section className='bg-gray-700 p-4 rounded-5xl mb-4'>
       <div className='flex gap-x-4 pb-4 mb-4 border-b border-gray-800'>
@@ -48,20 +93,7 @@ const SongCard = ({
         </div>
       </div>
       <div className='flex items-center justify-around'>
-        <ThumbsUp
-          size={40}
-          strokeWidth={2}
-          color='#f9fafb'
-          onClick={() => rateSong('like')}
-          className='p-2 rounded-2xl hover:bg-green-500 cursor-pointer'
-        />
-        <ThumbsDown
-          size={40}
-          strokeWidth={2}
-          color='#f9fafb'
-          onClick={() => rateSong('dislike')}
-          className='p-2 rounded-2xl cursor-pointer hover:bg-red-500'
-        />
+        {renderedRatingOptions}
         <a
           href={external_urls.spotify}
           target='_blank'

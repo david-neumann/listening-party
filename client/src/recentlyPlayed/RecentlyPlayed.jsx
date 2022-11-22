@@ -7,14 +7,22 @@ import PageTitle from '../utils/PageTitle';
 
 const RecentlyPlayed = () => {
   const { recentlyPlayed } = useContext(SpotifyContext);
-  const { addLikedSong, addDislikedSong } = useContext(UserContext);
+  const { addLikedSong, addDislikedSong, userRatedTrackIds } =
+    useContext(UserContext);
 
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [ratingText, setRatingText] = useState('');
   const [reviewText, setReviewText] = useState('');
   const [selectedSongData, setSelectedSongData] = useState({});
 
-  const renderedRecentlyPlayed = recentlyPlayed.map((song, index) => (
+  const checkIfRated = recentlyPlayed.map(song => {
+    const foundTrack = userRatedTrackIds.find(
+      ratedSong => ratedSong.id === song.track.id
+    );
+    return foundTrack ? { ...song, userRating: foundTrack.rating } : song;
+  });
+
+  const renderedRecentlyPlayed = checkIfRated.map((song, index) => (
     <SongCard
       key={index}
       {...song}

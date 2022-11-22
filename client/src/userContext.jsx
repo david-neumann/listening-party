@@ -29,6 +29,7 @@ const UserContextProvider = props => {
     : [];
 
   const [userFeed, setUserFeed] = useState([]);
+  const [userRatedTrackIds, setUserRatedTrackIds] = useState([]);
   const [userSearchResults, setUserSearchResults] = useState([]);
 
   useEffect(() => {
@@ -40,6 +41,11 @@ const UserContextProvider = props => {
     if (!currentUserToken) return;
     constructUserFeed(userFollowingArray);
   }, [currentUserData, currentUserToken]);
+
+  useEffect(() => {
+    if (!currentUserToken) return;
+    getUserRatedTrackIds([currentUserId]);
+  }, [userFeed]);
 
   // Functions
   const getLikedSongs = async userArray => {
@@ -65,6 +71,22 @@ const UserContextProvider = props => {
       a.createdAt < b.createdAt ? 1 : -1
     );
     setUserFeed(sortedArray);
+  };
+
+  const getUserRatedTrackIds = async userArray => {
+    const likedPromise = getLikedSongs(userArray);
+    const dislikedPromise = getDislikedSongs(userArray);
+    const [likedSongs, dislikedSongs] = await Promise.all([
+      likedPromise,
+      dislikedPromise,
+    ]);
+
+    const userRatingsArray = [...likedSongs, ...dislikedSongs];
+    const userRatingsTrackIds = userRatingsArray.map(track => ({
+      id: track.spotifyData.id,
+      rating: track.rating,
+    }));
+    setUserRatedTrackIds(userRatingsTrackIds);
   };
 
   const addLikedSong = (likedSong, review) => {
@@ -148,6 +170,7 @@ const UserContextProvider = props => {
         getAllUsers,
         followUser,
         unfollowUser,
+        userRatedTrackIds,
       }}
     >
       {props.children}

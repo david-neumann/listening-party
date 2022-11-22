@@ -26,7 +26,7 @@ const FeedCard = ({ spotifyData, review, rating, user, allUsers }) => {
       />
       <div className=''>
         <p className='font-thin mb-4'>
-          <StrongLink>{username}</StrongLink> {rating}d{' '}
+          <span className='font-bold'>{username}</span> {rating}d{' '}
           <StrongLink url={external_urls.spotify}>{name}</StrongLink> by{' '}
           <StrongLink url={external_urls.spotify}>{artists[0].name}</StrongLink>
         </p>

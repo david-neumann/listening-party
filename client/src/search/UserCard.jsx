@@ -13,7 +13,7 @@ const UserCard = ({ username, _id, followed, followUser, unfollowUser }) => {
       {!followed ? (
         <button
           onClick={() => followUser(_id)}
-          className='ml-auto p-2 bg-green-300 hover:bg-green-400 text-gray-800 rounded-xl'
+          className='ml-auto py-1 px-2 bg-green-300 hover:bg-green-400 text-gray-800 rounded-xl'
         >
           Follow
         </button>

@@ -43,7 +43,7 @@ const SearchBar = ({
         onChange={e => setDebouncedTerm(e.target.value)}
         autoFocus={true}
         onFocus={e => e.target.select()}
-        className='min-w-full max-w-[500px] py-2 pl-3 pr-10 rounded-xl text-gray-800
+        className='min-w-full py-2 pl-3 pr-10 rounded-xl text-gray-800
         focus:outline-none focus-visible:ring focus-visible:ring-green-300'
       />
       <Search

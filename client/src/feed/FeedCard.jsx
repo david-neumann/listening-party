@@ -24,14 +24,14 @@ const FeedCard = ({ spotifyData, review, rating, user, allUsers }) => {
         color='#1f2937'
         className={`rounded-full ${bgColor} shrink-0`}
       />
-      <div className=''>
-        <p className='font-thin mb-4'>
+      <div className='w-full'>
+        <p className='font-thin mb-4 md:text-lg transition-all'>
           <span className='font-bold'>{username}</span> {rating}d{' '}
           <StrongLink url={external_urls.spotify}>{name}</StrongLink> by{' '}
           <span className='font-bold'>{artists[0].name}</span>
         </p>
         {review !== '' && (
-          <blockquote className='text-sm bg-gray-700 py-3 px-4 rounded-3xl font-light'>
+          <blockquote className='text-sm bg-gray-700 py-3 px-4 rounded-3xl font-light transition-all md:text-base'>
             {review}
           </blockquote>
         )}

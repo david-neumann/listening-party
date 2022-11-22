@@ -1,11 +1,14 @@
 import { useContext, useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { SpotifyContext } from '../spotifyContext';
 import { UserContext } from '../userContext';
 import SongCard from './SongCard';
 import ReviewModal from './ReviewModal';
 import PageTitle from '../utils/PageTitle';
+import { Menu } from 'react-feather';
 
 const RecentlyPlayed = () => {
+  const { setShowSideNav } = useOutletContext();
   const { recentlyPlayed } = useContext(SpotifyContext);
   const { addLikedSong, addDislikedSong, userRatedTrackIds } =
     useContext(UserContext);
@@ -34,8 +37,15 @@ const RecentlyPlayed = () => {
 
   return (
     <>
-      <header className='mb-8'>
-        <PageTitle marginBottom={4}>What you're listening to</PageTitle>
+      <header className='flex justify-between md:mb-4'>
+        <PageTitle marginBottom={8}>What you're listening to</PageTitle>
+        <Menu
+          size={44}
+          strokeWidth={2}
+          color='#f9fafb'
+          onClick={() => setShowSideNav(true)}
+          className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline'
+        />
       </header>
       <main>{renderedRecentlyPlayed}</main>
       {showReviewModal && (

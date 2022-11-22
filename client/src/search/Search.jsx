@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import { SpotifyContext } from '../spotifyContext';
 import { UserContext } from '../userContext';
 import SearchBar from './SearchBar';
@@ -7,8 +8,10 @@ import PageTitle from '../utils/PageTitle';
 import SongCard from '../recentlyPlayed/SongCard';
 import UserCard from './UserCard';
 import ReviewModal from '../recentlyPlayed/ReviewModal';
+import { Menu } from 'react-feather';
 
 const Search = () => {
+  const { setShowSideNav } = useOutletContext();
   const {
     userSearchResults,
     setUserSearchResults,
@@ -80,10 +83,17 @@ const Search = () => {
 
   return (
     <>
-      <header>
+      <header className='flex justify-between md:mb-6'>
         <PageTitle marginBottom={4}>Search</PageTitle>
+        <Menu
+          size={44}
+          strokeWidth={2}
+          color='#f9fafb'
+          onClick={() => setShowSideNav(true)}
+          className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline'
+        />
       </header>
-      <main>
+      <main className='w-full'>
         <SearchBar
           onSearchSubmit={onSearchSubmit}
           clearResults={clearResults}

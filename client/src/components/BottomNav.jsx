@@ -3,7 +3,7 @@ import { Zap, Headphones, Search, User } from 'react-feather';
 
 const BottomNav = () => {
   return (
-    <nav className='fixed bottom-0 left-0 w-full z-20 flex justify-around py-6 border-t border-gray-50 bg-gray-800'>
+    <nav className='fixed bottom-0 left-0 w-full z-20 flex justify-around py-6 border-t border-gray-50 bg-gray-800 md:hidden'>
       <NavLink to='/'>
         {({ isActive }) => (
           <Zap

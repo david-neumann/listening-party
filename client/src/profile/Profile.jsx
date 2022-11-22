@@ -1,12 +1,14 @@
 import { useContext } from 'react';
+import { useOutletContext } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
 import ProfileTile from './ProfileTile';
 import PageTitle from '../utils/PageTitle';
 import { UserAuthContext } from '../userAuth/userAuthContext';
 import { UserContext } from '../userContext';
-import { LogOut } from 'react-feather';
+import { LogOut, Menu } from 'react-feather';
 
 const Profile = () => {
+  const { setShowSideNav } = useOutletContext();
   const { logout } = useContext(UserAuthContext);
   const { currentUserData } = useContext(UserContext);
 

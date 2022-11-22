@@ -28,7 +28,7 @@ const FeedCard = ({ spotifyData, review, rating, user, allUsers }) => {
         <p className='font-thin mb-4'>
           <span className='font-bold'>{username}</span> {rating}d{' '}
           <StrongLink url={external_urls.spotify}>{name}</StrongLink> by{' '}
-          <StrongLink url={external_urls.spotify}>{artists[0].name}</StrongLink>
+          <span className='font-bold'>{artists[0].name}</span>
         </p>
         {review !== '' && (
           <blockquote className='text-sm bg-gray-700 py-3 px-4 rounded-3xl font-light'>

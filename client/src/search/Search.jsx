@@ -18,6 +18,7 @@ const Search = () => {
     unfollowUser,
     addLikedSong,
     addDislikedSong,
+    userRatedTrackIds,
   } = useContext(UserContext);
   const { searchResults, onSearchSubmit, clearResults } =
     useContext(SpotifyContext);
@@ -43,10 +44,18 @@ const Search = () => {
     clearResults();
   };
 
-  const renderedSearchResults = searchResults.map((result, index) => (
+  const checkIfRated = searchResults.map(song => {
+    const foundTrack = userRatedTrackIds.find(
+      ratedSong => ratedSong.id === song.id
+    );
+    return foundTrack ? { ...song, userRating: foundTrack.rating } : song;
+  });
+
+  const renderedSearchResults = checkIfRated.map((result, index) => (
     <SongCard
       key={index}
       track={result}
+      userRating={result.userRating}
       setShowReviewModal={setShowReviewModal}
       setSelectedSongData={setSelectedSongData}
       setRatingText={setRatingText}

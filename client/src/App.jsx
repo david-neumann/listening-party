@@ -9,7 +9,6 @@ import Profile from './profile/Profile';
 import Search from './search/Search';
 import RecentlyPlayed from './recentlyPlayed/RecentlyPlayed';
 import ProtectedRoute from './utils/ProtectedRoute';
-import BypassRoute from './utils/BypassRoute';
 import { UserAuthContext } from './userAuth/userAuthContext';
 import { SpotifyContext } from './spotifyContext';
 

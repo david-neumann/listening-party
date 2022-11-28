@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AlertCircle, Eye, EyeOff } from 'react-feather';
-import { useEffect } from 'react';
 
 const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   const initInputs = {
@@ -76,6 +75,7 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   useEffect(() => {
     if (token) {
       navigate('/spotify');
+      resetAuthErr();
     }
   }, [token]);
 
@@ -190,6 +190,12 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
           className='file:border-0 file:font-sans file:bg-gray-50 file:text-gray-800 file:text-sm file:font-medium file:py-2 file:px-4 file:rounded-xl file:mr-4'
         />
       </div> */}
+      {errMsg && (
+        <div className='flex justify-center items-center gap-x-2'>
+          <AlertCircle size={20} color='#ef4444' />
+          <p className='text-red-500 place-self-center'>{errMsg}</p>
+        </div>
+      )}
       <button className='mt-4 py-2 text-xl font-bold rounded-2xl bg-green-300 text-gray-800'>
         Sign up
       </button>

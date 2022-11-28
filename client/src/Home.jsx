@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import BottomNav from './components/BottomNav';
 import SideNav from './components/SideNav';

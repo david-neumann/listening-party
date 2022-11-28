@@ -1,7 +1,6 @@
-import { useState, createContext, useContext, useEffect } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
-import { UserContext } from './userContext';
 
 const SpotifyContext = createContext();
 

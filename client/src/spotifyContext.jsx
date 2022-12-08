@@ -100,7 +100,7 @@ const SpotifyContextProvider = props => {
   useEffect(() => {
     if (!refreshToken || !expiresIn) return;
     const refreshTokenInterval = setInterval(() => {
-      refreshSpotifyTokens(refreshToken);
+      refreshSpotifyTokens();
     }, (expiresIn - 600) * 1000);
 
     return () => clearInterval(refreshTokenInterval);

@@ -26,7 +26,7 @@ const Search = () => {
   const { searchResults, onSearchSubmit, clearResults } =
     useContext(SpotifyContext);
 
-  const currentUserFollowing = currentUserData.following;
+  const currentUserFollowing = currentUserData ? currentUserData.following : [];
 
   const [searchType, setSearchType] = useState('track');
   const [searchResultsLimit, setSearchResultsLimit] = useState(20);

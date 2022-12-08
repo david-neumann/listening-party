@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import { Routes, Route, useSearchParams } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import SignUp from './userAuth/signup/SignUp';
 import Login from './userAuth/login/Login';
 import SpotifyAuth from './userAuth/SpotifyAuth';

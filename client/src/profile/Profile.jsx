@@ -18,7 +18,7 @@ const Profile = () => {
         <PageTitle>My Profile</PageTitle>
         <LogOut color='#f9fafb' onClick={logout} className='cursor-pointer' />
       </header>
-      <ProfileCard currentUserData={currentUserData} />
+      {currentUserData && <ProfileCard currentUserData={currentUserData} />}
       <div>
         <ProfileTile />
         <ProfileTile />

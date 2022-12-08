@@ -9,7 +9,7 @@ const ProfileCard = ({ currentUserData }) => {
 
   return (
     <div>
-      <div className='flex gap-x-4 mb-6'>
+      <div className='flex gap-x-4 mb-10'>
         {/* <figure className="bg-[url('/profile.jpeg')] bg-cover bg-center w-24 aspect-square rounded-full"></figure> */}
         <User
           size={72}

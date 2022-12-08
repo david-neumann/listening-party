@@ -2,8 +2,6 @@ const express = require('express');
 const spotifyRouter = express.Router();
 require('dotenv').config();
 const axios = require('axios');
-const User = require('../models/user');
-const SpotifyWebApi = require('spotify-web-api-node');
 
 // Auth credentials for Spotify
 const CLIENT_ID = process.env.CLIENT_ID;
@@ -25,8 +23,7 @@ const generateRandomString = length => {
 
 // GET request to redirect user to login with Spotify and generate auth code
 spotifyRouter.get('/auth/login', (req, res) => {
-  const scope = 'user-top-read \
-    user-read-recently-played';
+  const scope = 'user-top-read user-read-recently-played';
 
   const state = generateRandomString(16);
 
@@ -36,53 +33,74 @@ spotifyRouter.get('/auth/login', (req, res) => {
     scope,
     state,
     redirect_uri: REDIRECT_URI,
-  });
+  }).toString();
 
   res.redirect(
-    `https://accounts.spotify.com/authorize/?${auth_query_parameters.toString()}`
+    `https://accounts.spotify.com/authorize/?${auth_query_parameters}`
   );
 });
 
 // Auth code from previous route is exchanged for access token
-spotifyRouter.post('/auth/token', (req, res) => {
-  const code = req.body.code;
-  const spotifyApi = new SpotifyWebApi({
-    redirectUri: REDIRECT_URI,
-    clientId: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-  });
+spotifyRouter.get('/auth/callback', (req, res) => {
+  const code = req.query.code || null;
 
-  spotifyApi
-    .authorizationCodeGrant(code)
-    .then(data =>
-      res.json({
-        accessToken: data.body.access_token,
-        refreshToken: data.body.refresh_token,
-        expiresIn: data.body.expires_in,
-      })
-    )
-    .catch(err => console.log(err));
+  axios({
+    method: 'post',
+    url: 'https://accounts.spotify.com/api/token',
+    data: new URLSearchParams({
+      grant_type: 'authorization_code',
+      code,
+      redirect_uri: REDIRECT_URI,
+    }).toString(),
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${new Buffer.from(
+        `${CLIENT_ID}:${CLIENT_SECRET}`
+      ).toString('base64')}`,
+    },
+  })
+    .then(response => {
+      if (response.status === 200) {
+        const { access_token, refresh_token, expires_in } = response.data;
+
+        const queryParams = new URLSearchParams({
+          accessToken: access_token,
+          refreshToken: refresh_token,
+          expiresIn: expires_in,
+        }).toString();
+
+        res.redirect(`http://localhost:5173/?${queryParams}`);
+      } else {
+        const queryParams = new URLSearchParams({
+          error: 'invalid_token',
+        }).toString();
+        res.redirect(`http://localhost:5173/?${queryParams}`);
+      }
+    })
+    .catch(err => console.dir(err));
 });
 
 // Refreshes access token so user doesn't have to reauthenticate
-spotifyRouter.post('/auth/refresh', (req, res) => {
-  const refreshToken = req.body.refreshToken;
-  const spotifyApi = new SpotifyWebApi({
-    redirectUri: REDIRECT_URI,
-    clientId: CLIENT_ID,
-    clientSecret: CLIENT_SECRET,
-    refreshToken,
-  });
+spotifyRouter.get('/auth/refresh', (req, res) => {
+  const { refresh_token } = req.query;
+  console.log(refresh_token);
 
-  spotifyApi
-    .refreshAccessToken()
-    .then(data => {
-      res.json({
-        accessToken: data.body.access_token,
-        expiresIn: data.body.expires_in,
-      });
-    })
-    .catch(err => console.log(err));
+  axios({
+    method: 'post',
+    url: 'https://accounts.spotify.com/api/token',
+    data: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token,
+    }).toString(),
+    headers: {
+      'content-type': 'application/x-www-form-urlencoded',
+      Authorization: `Basic ${new Buffer.from(
+        `${CLIENT_ID}:${CLIENT_SECRET}`
+      ).toString('base64')}`,
+    },
+  })
+    .then(response => res.send(response.data))
+    .catch(err => console.dir(err));
 });
 
 module.exports = spotifyRouter;

@@ -8,7 +8,7 @@ const Home = () => {
 
   return (
     <div className='min-h-full transition-all'>
-      <div className='p-6 pb-24 mx-auto max-w-[500px] sm:max-w-[600px] transition-all md:pt-10'>
+      <div className='px-6 pt-12 pb-24 mx-auto max-w-[500px] sm:max-w-[600px] transition-all md:pt-14'>
         <Outlet context={{ showSideNav, setShowSideNav }} />
       </div>
       <BottomNav />

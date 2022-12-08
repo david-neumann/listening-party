@@ -1,47 +1,83 @@
 import { useState, createContext, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import _ from 'lodash';
 
 const SpotifyContext = createContext();
 
 const SpotifyContextProvider = props => {
-  // All things tokens
-  const [accessToken, setAccessToken] = useState(
-    localStorage.getItem('spotifyAccessToken') || ''
-  );
-  const [refreshToken, setRefreshToken] = useState(
-    localStorage.getItem('spotifyRefreshToken') || ''
-  );
-  const [expiresIn, setExpiresIn] = useState(
-    localStorage.getItem('spotifyExpiresIn') || ''
-  );
-
-  const getSpotifyTokens = code => {
-    axios
-      .post('http://localhost:7070/server/spotify/auth/token', { code })
-      .then(res => {
-        const { accessToken, refreshToken, expiresIn } = res.data;
-        localStorage.setItem('spotifyAccessToken', accessToken);
-        localStorage.setItem('spotifyRefreshToken', refreshToken);
-        localStorage.setItem('spotifyExpiresIn', expiresIn);
-        setAccessToken(accessToken);
-        setRefreshToken(refreshToken);
-        setExpiresIn(expiresIn);
-      })
-      .catch(err => console.dir(err));
+  const LOCALSTORAGE_KEYS = {
+    accessToken: 'spotifyAccessToken',
+    refreshToken: 'spotifyRefreshToken',
+    expiresIn: 'spotifyExpiresIn',
+  };
+  const LOCALSTORAGE_VALUES = {
+    accessToken: localStorage.getItem(LOCALSTORAGE_KEYS.accessToken),
+    refreshToken: localStorage.getItem(LOCALSTORAGE_KEYS.refreshToken),
+    expiresIn: localStorage.getItem(LOCALSTORAGE_KEYS.expiresIn),
   };
 
-  const refreshSpotifyTokens = refreshToken => {
+  // TOKENS **************************************************************
+
+  const [accessToken, setAccessToken] = useState(
+    LOCALSTORAGE_VALUES.accessToken
+  );
+  const [refreshToken, setRefreshToken] = useState(
+    LOCALSTORAGE_VALUES.refreshToken
+  );
+  const [expiresIn, setExpiresIn] = useState(LOCALSTORAGE_VALUES.expiresIn);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const getSpotifyTokens = () => {
+    const queryParams = {
+      [LOCALSTORAGE_KEYS.accessToken]: searchParams.get('accessToken'),
+      [LOCALSTORAGE_KEYS.refreshToken]: searchParams.get('refreshToken'),
+      [LOCALSTORAGE_KEYS.expiresIn]: searchParams.get('expiresIn'),
+    };
+    const hasError = searchParams.get('error');
+
+    // If there's an error OR the token in localStorage has expired, refresh the token
+    if (hasError || LOCALSTORAGE_VALUES.accessToken === 'undefined') {
+      refreshSpotifyTokens();
+    }
+
+    // If there's a valid access token in localStorage, use that
+    if (
+      LOCALSTORAGE_VALUES.accessToken &&
+      LOCALSTORAGE_VALUES.accessToken !== 'undefined'
+    ) {
+      return;
+    }
+
+    // If there's a token in the URL query params, user is logging in for first time
+    if (queryParams[LOCALSTORAGE_KEYS.accessToken]) {
+      // Store tokens in localStorage
+      for (const property in queryParams) {
+        localStorage.setItem(property, queryParams[property]);
+      }
+      // Store tokens in state
+      setAccessToken(queryParams[LOCALSTORAGE_KEYS.accessToken]);
+      setRefreshToken(queryParams[LOCALSTORAGE_KEYS.refreshToken]);
+      setExpiresIn(queryParams[LOCALSTORAGE_KEYS.expiresIn]);
+
+      return;
+    }
+  };
+
+  const refreshSpotifyTokens = () => {
     axios
-      .post('http://localhost:7070/server/spotify/auth/refresh', {
-        refreshToken,
-      })
+      .get(
+        `http://localhost:7070/server/spotify/auth/refresh/?${new URLSearchParams(
+          { refresh_token: refreshToken }
+        ).toString()}`
+      )
       .then(res => {
-        const { accessToken, expiresIn } = res.data;
-        localStorage.setItem('spotifyAccessToken', accessToken);
-        localStorage.setItem('spotifyExpiresIn', expiresIn);
-        setAccessToken(accessToken);
-        setExpiresIn(expiresIn);
+        const { access_token, expires_in } = res.data;
+        localStorage.setItem(LOCALSTORAGE_KEYS.accessToken, access_token);
+        localStorage.setItem(LOCALSTORAGE_KEYS.expiresIn, expires_in);
+        setAccessToken(access_token);
+        setExpiresIn(expires_in);
       })
       .catch(err => console.log(err));
   };
@@ -50,10 +86,12 @@ const SpotifyContextProvider = props => {
     if (!refreshToken || !expiresIn) return;
     const refreshTokenInterval = setInterval(() => {
       refreshSpotifyTokens(refreshToken);
-    }, (expiresIn - 60) * 1000);
+    }, (expiresIn - 600) * 1000);
 
     return () => clearInterval(refreshTokenInterval);
   }, [refreshToken, expiresIn]);
+
+  // SPOTIFY API CALLS ***************************************************
 
   // Create Axios instance for Spotify API calls
   const spotifyAxios = axios.create({

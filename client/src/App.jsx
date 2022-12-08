@@ -17,16 +17,10 @@ const App = () => {
   const { userAuthState } = useContext(UserAuthContext);
   const { token } = userAuthState;
 
-  // Get Spotify auth code from URL params
-  const [searchParams, setSearchParams] = useSearchParams();
-  const code = searchParams.get('code');
-
   const { getSpotifyTokens } = useContext(SpotifyContext);
 
   useEffect(() => {
-    if (code) {
-      getSpotifyTokens(code);
-    }
+    if (token) getSpotifyTokens();
   }, []);
 
   return (

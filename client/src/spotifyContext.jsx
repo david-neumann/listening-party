@@ -1,11 +1,13 @@
 import { useState, createContext, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import _ from 'lodash';
 
 const SpotifyContext = createContext();
 
 const SpotifyContextProvider = props => {
+  const navigate = useNavigate();
+
   const LOCALSTORAGE_KEYS = {
     accessToken: 'spotifyAccessToken',
     refreshToken: 'spotifyRefreshToken',
@@ -65,21 +67,34 @@ const SpotifyContextProvider = props => {
     }
   };
 
-  const refreshSpotifyTokens = () => {
-    axios
-      .get(
-        `http://localhost:7070/server/spotify/auth/refresh/?${new URLSearchParams(
-          { refresh_token: refreshToken }
-        ).toString()}`
-      )
-      .then(res => {
-        const { access_token, expires_in } = res.data;
-        localStorage.setItem(LOCALSTORAGE_KEYS.accessToken, access_token);
-        localStorage.setItem(LOCALSTORAGE_KEYS.expiresIn, expires_in);
-        setAccessToken(access_token);
-        setExpiresIn(expires_in);
-      })
-      .catch(err => console.log(err));
+  const refreshSpotifyTokens = async () => {
+    try {
+      // If no refresh token is available, redirect back to Spotify auth page
+      if (
+        !LOCALSTORAGE_VALUES.refreshToken ||
+        LOCALSTORAGE_VALUES.refreshToken === 'undefined'
+      ) {
+        console.error('No refresh token available.');
+        for (const property in LOCALSTORAGE_KEYS) {
+          localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
+        }
+        navigate('/spotify');
+      } else {
+        // Otherwise get new token with refreshToken and update localStorage and state
+        const { data } = await axios.get(
+          `http://localhost:7070/server/spotify/auth/refresh/?${new URLSearchParams(
+            { refresh_token: refreshToken }
+          ).toString()}`
+        );
+
+        localStorage.setItem(LOCALSTORAGE_KEYS.accessToken, data.access_token);
+        localStorage.setItem(LOCALSTORAGE_KEYS.expiresIn, data.expires_in);
+        setAccessToken(data.access_token);
+        setExpiresIn(data.expires_in);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {

@@ -16,7 +16,7 @@ const FeedCard = ({ spotifyData, review, rating, user, allUsers }) => {
   const bgColor = colorOptions[Math.floor(Math.random() * colorOptions.length)];
 
   return (
-    <section className='mt-6 flex gap-x-4 pb-6 border-b border-gray-700'>
+    <section className='mt-6 min-w-full flex gap-x-4 pb-6 border-b border-gray-700'>
       {/* <figure className={`bg-[url("/profile.jpeg")] bg-cover bg-center w-24 aspect-square rounded-full`}></figure> */}
       <User
         size={52}

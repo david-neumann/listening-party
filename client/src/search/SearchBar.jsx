@@ -34,7 +34,7 @@ const SearchBar = ({
   }, [searchType]);
 
   return (
-    <div className='relative mb-4'>
+    <div className='relative mb-4 min-w-full'>
       <input
         type='text'
         placeholder={placeholderText}

@@ -93,7 +93,7 @@ const Search = () => {
           className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline xl:hidden'
         />
       </header>
-      <main className='w-full'>
+      <main className='min-w-full'>
         <SearchBar
           onSearchSubmit={onSearchSubmit}
           clearResults={clearResults}

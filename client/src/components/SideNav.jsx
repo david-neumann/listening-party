@@ -7,7 +7,7 @@ const SideNav = () => {
   const { logout } = useContext(UserAuthContext);
 
   return (
-    <nav className='p-24 transition-all border-r border-gray-700 hidden xl:block'>
+    <nav className='p-24 pl-40 max-h-min transition-all border-r border-gray-700 hidden xl:inline'>
       <h2 className='text-4xl font-bold mb-16 max-w-max text-transparent bg-clip-text bg-gradient-to-tr from-green-300 to-green-600'>
         Listening Party 🎵
       </h2>
@@ -87,12 +87,18 @@ const SideNav = () => {
           </div>
         )}
       </NavLink>
-      <NavLink to='login'>
+      <NavLink
+        onClick={() => {
+          setShowOverlayNav(false);
+          logout();
+        }}
+        to='login'
+      >
         <div
-          onClick={() => {
-            setShowOverlayNav(false);
-            logout();
-          }}
+          // onClick={() => {
+          //   setShowOverlayNav(false);
+          //   logout();
+          // }}
           className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'
         >
           <LogOut size={30} strokeWidth={2} color='#f9fafb' />

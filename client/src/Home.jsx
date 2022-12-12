@@ -26,7 +26,7 @@ const Home = () => {
   return (
     <div className='min-h-full transition-all flex gap-x-20'>
       <SideNav />
-      <div className='px-6 pt-12 pb-24 mx-auto max-w-[500px] sm:max-w-[600px] transition-all md:pt-14 xl:mx-0'>
+      <div className='px-6 pt-12 pb-24 mx-auto w-[500px] transition-all md:pt-14 md:w-[600px] xl:w-[500px] xl:mx-0'>
         <Outlet context={{ showOverlayNav, setShowOverlayNav }} />
       </div>
       <BottomNav />

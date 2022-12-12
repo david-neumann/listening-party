@@ -11,7 +11,7 @@ import ReviewModal from '../recentlyPlayed/ReviewModal';
 import { Menu } from 'react-feather';
 
 const Search = () => {
-  const { setShowSideNav } = useOutletContext();
+  const { setShowOverlayNav } = useOutletContext();
   const {
     userSearchResults,
     setUserSearchResults,
@@ -89,8 +89,8 @@ const Search = () => {
           size={44}
           strokeWidth={2}
           color='#f9fafb'
-          onClick={() => setShowSideNav(true)}
-          className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline'
+          onClick={() => setShowOverlayNav(true)}
+          className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline xl:hidden'
         />
       </header>
       <main className='w-full'>

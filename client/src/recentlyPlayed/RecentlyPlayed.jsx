@@ -8,7 +8,7 @@ import PageTitle from '../utils/PageTitle';
 import { Menu } from 'react-feather';
 
 const RecentlyPlayed = () => {
-  const { setShowSideNav } = useOutletContext();
+  const { setShowOverlayNav } = useOutletContext();
   const { recentlyPlayed } = useContext(SpotifyContext);
   const { addLikedSong, addDislikedSong, userRatedTrackIds } =
     useContext(UserContext);
@@ -43,8 +43,8 @@ const RecentlyPlayed = () => {
           size={44}
           strokeWidth={2}
           color='#f9fafb'
-          onClick={() => setShowSideNav(true)}
-          className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline'
+          onClick={() => setShowOverlayNav(true)}
+          className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline xl:hidden'
         />
       </header>
       <main>{renderedRecentlyPlayed}</main>

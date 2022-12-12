@@ -14,7 +14,7 @@ app.use(morgan('dev'));
 
 // Connect to database
 mongoose.connect(process.env.MONGODB, () =>
-  console.log('Connected to the database.')
+  console.log('Connected to MongoDB Atlas database.')
 );
 
 // Routes

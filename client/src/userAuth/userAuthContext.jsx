@@ -52,6 +52,9 @@ const UserAuthContextProvider = props => {
   const logout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('spotifyAccessToken');
+    localStorage.removeItem('spotifyRefreshToken');
+    localStorage.removeItem('spotifyExpiresIn');
     setUserAuthState({
       user: {},
       token: '',

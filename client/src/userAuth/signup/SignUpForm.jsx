@@ -10,7 +10,7 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
   };
 
   const [formInputs, setFormInputs] = useState(initInputs);
-  // const [profileImg, setProfileImg] = useState('');
+  const [profileImg, setProfileImg] = useState('');
   const [formError, setFormError] = useState(initInputs);
 
   const handleChange = e => {
@@ -186,7 +186,7 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
           capture='user'
           name='profileImg'
           value={profileImg}
-          // onChange={handleChange}
+          onChange={e => console.dir(e.target.files)}
           className='file:border-0 file:font-sans file:bg-gray-50 file:text-gray-800 file:text-sm file:font-medium file:py-2 file:px-4 file:rounded-xl file:mr-4'
         />
       </div> */}

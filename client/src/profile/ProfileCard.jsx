@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { User } from 'react-feather';
 
 const ProfileCard = ({ currentUserData }) => {
@@ -8,7 +9,7 @@ const ProfileCard = ({ currentUserData }) => {
   });
 
   return (
-    <div>
+    <section>
       <div className='flex gap-x-4 mb-10'>
         {/* <figure className="bg-[url('/profile.jpeg')] bg-cover bg-center w-24 aspect-square rounded-full"></figure> */}
         <User
@@ -27,9 +28,9 @@ const ProfileCard = ({ currentUserData }) => {
         </div>
       </div>
       <button className='w-full py-2 bg-green-300 text-gray-800 font-medium rounded-2xl'>
-        Edit Profile
+        <Link to='/profile/edit'>Edit Profile</Link>
       </button>
-    </div>
+    </section>
   );
 };
 

@@ -57,14 +57,14 @@ const SongCard = ({
               strokeWidth={2}
               color='#f9fafb'
               onClick={() => rateSong('like')}
-              className='p-2 rounded-2xl hover:bg-green-500 cursor-pointer'
+              className='p-2 rounded-2xl cursor-pointer hover:stroke-green-500 hover:bg-green-100'
             />
             <ThumbsDown
               size={40}
               strokeWidth={2}
               color='#f9fafb'
               onClick={() => rateSong('dislike')}
-              className='p-2 rounded-2xl cursor-pointer hover:bg-red-500'
+              className='p-2 rounded-2xl cursor-pointer hover:stroke-red-500 hover:bg-red-100'
             />
           </>
         );

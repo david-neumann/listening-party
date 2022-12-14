@@ -9,18 +9,9 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
     confirmPassword: '',
   };
 
-  const [formInputs, setFormInputs] = useState(initInputs);
   const [profileImg, setProfileImg] = useState('');
+  const [formInputs, setFormInputs] = useState(initInputs);
   const [formError, setFormError] = useState(initInputs);
-
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormInputs(prevInputs => ({
-      ...prevInputs,
-      [name]: value,
-    }));
-    validateInputs(e);
-  };
 
   const validateInputs = e => {
     const { name, value } = e.target;
@@ -63,6 +54,15 @@ const SignUpForm = ({ token, signup, errMsg, resetAuthErr }) => {
 
       return errObj;
     });
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormInputs(prevInputs => ({
+      ...prevInputs,
+      [name]: value,
+    }));
+    validateInputs(e);
   };
 
   const navigate = useNavigate();

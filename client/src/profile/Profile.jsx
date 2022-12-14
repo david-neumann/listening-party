@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
-import ProfileTile from './ProfileTile';
 import PageTitle from '../utils/PageTitle';
 import { UserAuthContext } from '../userAuth/userAuthContext';
 import { UserContext } from '../userContext';
@@ -30,12 +29,6 @@ const Profile = () => {
         />
       </header>
       {currentUserData && <ProfileCard currentUserData={currentUserData} />}
-      <div>
-        <ProfileTile />
-        <ProfileTile />
-        <ProfileTile />
-        <ProfileTile />
-      </div>
     </>
   );
 };

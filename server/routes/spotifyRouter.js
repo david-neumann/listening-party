@@ -83,7 +83,6 @@ spotifyRouter.get('/auth/callback', (req, res) => {
 // Refreshes access token so user doesn't have to reauthenticate
 spotifyRouter.get('/auth/refresh', (req, res) => {
   const { refresh_token } = req.query;
-  console.log(refresh_token);
 
   axios({
     method: 'post',

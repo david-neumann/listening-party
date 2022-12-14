@@ -13,10 +13,7 @@ const SideNav = () => {
       </h2>
       <NavLink to='/'>
         {({ isActive }) => (
-          <div
-            onClick={() => setShowOverlayNav(false)}
-            className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'
-          >
+          <div className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'>
             <Zap
               size={30}
               strokeWidth={2}
@@ -32,10 +29,7 @@ const SideNav = () => {
       </NavLink>
       <NavLink to='recentlyplayed'>
         {({ isActive }) => (
-          <div
-            onClick={() => setShowOverlayNav(false)}
-            className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'
-          >
+          <div className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'>
             <Headphones
               size={30}
               strokeWidth={2}
@@ -51,10 +45,7 @@ const SideNav = () => {
       </NavLink>
       <NavLink to='search'>
         {({ isActive }) => (
-          <div
-            onClick={() => setShowOverlayNav(false)}
-            className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'
-          >
+          <div className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'>
             <Search
               size={30}
               strokeWidth={2}
@@ -70,10 +61,7 @@ const SideNav = () => {
       </NavLink>
       <NavLink to='profile'>
         {({ isActive }) => (
-          <div
-            onClick={() => setShowOverlayNav(false)}
-            className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'
-          >
+          <div className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'>
             <User
               size={30}
               strokeWidth={2}
@@ -87,24 +75,13 @@ const SideNav = () => {
           </div>
         )}
       </NavLink>
-      <NavLink
-        onClick={() => {
-          setShowOverlayNav(false);
-          logout();
-        }}
-        to='login'
+      <div
+        onClick={logout}
+        className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all cursor-pointer'
       >
-        <div
-          // onClick={() => {
-          //   setShowOverlayNav(false);
-          //   logout();
-          // }}
-          className='flex gap-x-6 items-center max-w-max mb-6 p-2 rounded-xl hover:bg-gray-700 transition-all'
-        >
-          <LogOut size={30} strokeWidth={2} color='#f9fafb' />
-          <h3 className='text-2xl font-medium'>Log out</h3>
-        </div>
-      </NavLink>
+        <LogOut size={30} strokeWidth={2} color='#f9fafb' />
+        <h3 className='text-2xl font-medium'>Log out</h3>
+      </div>
     </nav>
   );
 };

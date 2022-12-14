@@ -7,36 +7,40 @@ const BottomNav = () => {
       <NavLink to='/'>
         {({ isActive }) => (
           <Zap
-            size={26}
+            size={32}
             strokeWidth={2}
             color={isActive ? '#86efac' : '#f9fafb'}
+            className='p-1 rounded-lg hover:bg-gray-700'
           />
         )}
       </NavLink>
       <NavLink to='recentlyplayed'>
         {({ isActive }) => (
           <Headphones
-            size={26}
+            size={32}
             strokeWidth={2}
             color={isActive ? '#86efac' : '#f9fafb'}
+            className='p-1 rounded-lg hover:bg-gray-700'
           />
         )}
       </NavLink>
       <NavLink to='search'>
         {({ isActive }) => (
           <Search
-            size={26}
+            size={32}
             strokeWidth={2}
             color={isActive ? '#86efac' : '#f9fafb'}
+            className='p-1 rounded-lg hover:bg-gray-700'
           />
         )}
       </NavLink>
       <NavLink to='profile'>
         {({ isActive }) => (
           <User
-            size={26}
+            size={32}
             strokeWidth={2}
             color={isActive ? '#86efac' : '#f9fafb'}
+            className='p-1 rounded-lg hover:bg-gray-700'
           />
         )}
       </NavLink>

@@ -7,22 +7,6 @@ import SideNav from './components/SideNav';
 const Home = () => {
   const [showOverlayNav, setShowOverlayNav] = useState(false);
 
-  const getWindowWidth = () => {
-    const { innerWidth } = window;
-    return innerWidth;
-  };
-
-  const [windowWidth, setWindowWidth] = useState(getWindowWidth());
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(getWindowWidth());
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   return (
     <div className='min-h-full transition-all flex gap-x-20'>
       <SideNav />

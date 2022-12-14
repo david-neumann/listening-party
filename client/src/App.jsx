@@ -6,11 +6,13 @@ import SpotifyAuth from './userAuth/SpotifyAuth';
 import Home from './Home';
 import Feed from './feed/Feed';
 import Profile from './profile/Profile';
+import EditProfile from './profile/EditProfile';
 import Search from './search/Search';
 import RecentlyPlayed from './recentlyPlayed/RecentlyPlayed';
 import ProtectedRoute from './utils/ProtectedRoute';
 import { UserAuthContext } from './userAuth/userAuthContext';
 import { SpotifyContext } from './spotifyContext';
+import ProfileCard from './profile/ProfileCard';
 
 const App = () => {
   // Retrieve app token
@@ -41,6 +43,7 @@ const App = () => {
           <Route path='recentlyplayed' element={<RecentlyPlayed />} />
           <Route path='search' element={<Search />} />
           <Route path='profile' element={<Profile />} />
+          <Route path='profile/edit' element={<EditProfile />} />
         </Route>
       </Routes>
     </div>

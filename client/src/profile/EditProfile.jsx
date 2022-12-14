@@ -7,8 +7,8 @@ import { LogOut, Menu, Camera, AlertCircle, Eye, EyeOff } from 'react-feather';
 
 const EditProfile = () => {
   const { setShowOverlayNav } = useOutletContext();
-  const { logout, editUser, userAuthState } = useContext(UserAuthContext);
-  const { currentUserData } = useContext(UserContext);
+  const { logout, editUser, editPassword, userAuthState } =
+    useContext(UserAuthContext);
   const { user } = userAuthState;
 
   // Username change
@@ -85,6 +85,9 @@ const EditProfile = () => {
 
   const submitPasswordChange = e => {
     e.preventDefault();
+    console.log(newPassword.password);
+    editPassword(newPassword);
+    setShowPasswordInputs(false);
   };
 
   return (
@@ -239,7 +242,7 @@ const EditProfile = () => {
             )}
             {showPasswordInputs && (
               <span
-                onClick={() => setShowPasswordInputs(false)}
+                onClick={submitPasswordChange}
                 className='text-green-300 text-lg cursor-pointer ml-auto hover:underline'
               >
                 Save Password

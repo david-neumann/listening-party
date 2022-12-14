@@ -19,7 +19,7 @@ userRouter.get('/', (req, res, next) => {
 userRouter.put('/edit', (req, res, next) => {
   User.findOneAndUpdate(
     { _id: req.auth._id },
-    { $set: { username: req.body.username } },
+    { $set: req.body },
     { new: true },
     (err, updatedUser) => {
       if (err) {
@@ -30,6 +30,24 @@ userRouter.put('/edit', (req, res, next) => {
       return res.status(201).send(updatedUser.withoutPassword());
     }
   );
+});
+
+// Update password
+userRouter.put('/edit/password', async (req, res, next) => {
+  const user = await User.findOne({ _id: req.auth._id });
+  console.log(req.body);
+  user.password = req.body.password;
+  console.log(user.password);
+  user.save((err, savedUser) => {
+    if (err) {
+      res.status(500);
+      return next(err);
+    }
+
+    return res
+      .status(201)
+      .send(`Password for ${savedUser.username} updated successfully.`);
+  });
 });
 
 // Search for users

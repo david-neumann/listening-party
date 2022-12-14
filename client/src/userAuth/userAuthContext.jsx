@@ -83,6 +83,20 @@ const UserAuthContextProvider = props => {
     }
   };
 
+  // Edit password
+  const editPassword = async newPassword => {
+    console.log(newPassword);
+    try {
+      const res = await userAxios.put(
+        '/server/api/users/edit/password',
+        newPassword
+      );
+      console.log(res.data);
+    } catch (err) {
+      handleAuthErr(err.response.data.errMsg);
+    }
+  };
+
   // Capture error message for display on auth page
   const [errMsg, setErrMsg] = useState('');
   const handleAuthErr = errMsg => setErrMsg(errMsg);
@@ -98,6 +112,7 @@ const UserAuthContextProvider = props => {
         errMsg,
         resetAuthErr,
         editUser,
+        editPassword,
       }}
     >
       {props.children}

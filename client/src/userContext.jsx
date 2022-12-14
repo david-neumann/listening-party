@@ -24,7 +24,7 @@ const UserContextProvider = props => {
   const currentUserToken = localStorage.getItem('token')
     ? userAuthState.token
     : '';
-  const userFollowingArray = userAuthState
+  const userFollowingArray = localStorage.getItem('token')
     ? [currentUserId, ...userAuthState.user.following]
     : [];
 

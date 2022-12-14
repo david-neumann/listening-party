@@ -1,4 +1,3 @@
-import { User } from 'react-feather';
 import StrongLink from '../utils/StrongLink';
 
 const FeedCard = ({ spotifyData, review, rating, user, allUsers }) => {

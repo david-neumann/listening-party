@@ -3,13 +3,11 @@ import { useOutletContext } from 'react-router-dom';
 import ProfileCard from './ProfileCard';
 import PageTitle from '../utils/PageTitle';
 import { UserAuthContext } from '../userAuth/userAuthContext';
-import { UserContext } from '../userContext';
 import { LogOut, Menu } from 'react-feather';
 
 const Profile = () => {
   const { setShowOverlayNav } = useOutletContext();
-  const { logout } = useContext(UserAuthContext);
-  const { currentUserData } = useContext(UserContext);
+  const { logout, userAuthState } = useContext(UserAuthContext);
 
   return (
     <>
@@ -28,7 +26,7 @@ const Profile = () => {
           className='bg-gray-700 p-2 rounded-xl hover:bg-gray-900 cursor-pointer hidden md:inline xl:hidden'
         />
       </header>
-      {currentUserData && <ProfileCard currentUserData={currentUserData} />}
+      {userAuthState && <ProfileCard currentUserData={userAuthState.user} />}
     </>
   );
 };

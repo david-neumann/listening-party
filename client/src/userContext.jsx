@@ -1,4 +1,5 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { UserAuthContext } from './userAuth/userAuthContext';
 import axios from 'axios';
 
 // Create Axios instance and attach jwt to headers
@@ -13,19 +14,18 @@ userAxios.interceptors.request.use(config => {
 const UserContext = createContext();
 
 const UserContextProvider = props => {
+  const { userAuthState } = useContext(UserAuthContext);
+
   // Data
   const [allUsers, setAllUsers] = useState([]);
   const currentUserId = localStorage.getItem('user')
-    ? JSON.parse(localStorage.getItem('user'))._id
+    ? userAuthState.user._id
     : '';
   const currentUserToken = localStorage.getItem('token')
-    ? localStorage.getItem('token')
+    ? userAuthState.token
     : '';
-  const currentUserData = allUsers.filter(
-    user => user._id === currentUserId
-  )[0];
-  const userFollowingArray = currentUserData
-    ? [currentUserId, ...currentUserData.following]
+  const userFollowingArray = userAuthState
+    ? [currentUserId, ...userAuthState.user.following]
     : [];
 
   const [userFeed, setUserFeed] = useState([]);
@@ -35,12 +35,12 @@ const UserContextProvider = props => {
   useEffect(() => {
     if (!currentUserToken) return;
     getAllUsers();
-  }, [currentUserToken]);
+  }, [currentUserToken, userAuthState]);
 
   useEffect(() => {
     if (!currentUserToken) return;
     constructUserFeed(userFollowingArray);
-  }, [currentUserData, currentUserToken]);
+  }, [userAuthState, currentUserToken]);
 
   useEffect(() => {
     if (!currentUserToken) return;
@@ -159,7 +159,6 @@ const UserContextProvider = props => {
     <UserContext.Provider
       value={{
         currentUserId,
-        currentUserData,
         userFeed,
         addLikedSong,
         addDislikedSong,

@@ -15,6 +15,23 @@ userRouter.get('/', (req, res, next) => {
   });
 });
 
+// Update user
+userRouter.put('/edit', (req, res, next) => {
+  User.findOneAndUpdate(
+    { _id: req.auth._id },
+    { $set: { username: req.body.username } },
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        res.status(500);
+        return next(err);
+      }
+
+      return res.status(201).send(updatedUser.withoutPassword());
+    }
+  );
+});
+
 // Search for users
 userRouter.get('/search', (req, res, next) => {
   User.find(

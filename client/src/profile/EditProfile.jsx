@@ -7,12 +7,12 @@ import { LogOut, Menu, Camera, AlertCircle, Eye, EyeOff } from 'react-feather';
 
 const EditProfile = () => {
   const { setShowOverlayNav } = useOutletContext();
-  const { logout } = useContext(UserAuthContext);
+  const { logout, editUser, userAuthState } = useContext(UserAuthContext);
   const { currentUserData } = useContext(UserContext);
-  const { username } = currentUserData;
+  const { user } = userAuthState;
 
   // Username change
-  const [newUsername, setNewUsername] = useState(username);
+  const [newUsername, setNewUsername] = useState(user.username);
   const [showUsernameInput, setShowUsernameInput] = useState(false);
 
   const handleUsernameChange = e => {
@@ -22,6 +22,9 @@ const EditProfile = () => {
 
   const submitUsernameChange = e => {
     e.preventDefault();
+    const userObj = { username: newUsername };
+    editUser(userObj);
+    setShowUsernameInput(false);
   };
 
   // Password change
@@ -120,19 +123,28 @@ const EditProfile = () => {
                 type='text'
                 name='newUsername'
                 value={newUsername}
-                placeholder={username}
+                placeholder={user.username}
                 onChange={handleUsernameChange}
                 className='text-gray-800 text-lg py-1 px-2 rounded-lg'
               />
             ) : (
-              <span className='text-lg font-light'>{username}</span>
+              <span className='text-lg font-light'>{user.username}</span>
             )}
-            <span
-              onClick={() => setShowUsernameInput(prevState => !prevState)}
-              className='text-green-300 text-lg cursor-pointer ml-auto hover:underline'
-            >
-              {showUsernameInput ? 'Save' : 'Change'}
-            </span>
+            {showUsernameInput ? (
+              <span
+                onClick={submitUsernameChange}
+                className='text-green-300 text-lg cursor-pointer ml-auto hover:underline'
+              >
+                Save
+              </span>
+            ) : (
+              <span
+                onClick={() => setShowUsernameInput(true)}
+                className='text-green-300 text-lg cursor-pointer ml-auto hover:underline'
+              >
+                Change
+              </span>
+            )}
           </div>
           <div className='p-3'>
             {!showPasswordInputs && (

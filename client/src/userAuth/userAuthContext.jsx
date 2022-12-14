@@ -2,6 +2,13 @@ import { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const userAxios = axios.create();
+userAxios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
 const UserAuthContext = createContext();
 
 const UserAuthContextProvider = props => {
@@ -62,6 +69,20 @@ const UserAuthContextProvider = props => {
     navigate('/login');
   };
 
+  // Edit user
+  const editUser = async updatedUser => {
+    try {
+      const res = await userAxios.put('/server/api/users/edit', updatedUser);
+      localStorage.setItem('user', JSON.stringify(res.data));
+      setUserAuthState(prevState => ({
+        ...prevState,
+        user: res.data,
+      }));
+    } catch (err) {
+      handleAuthErr(err.response.data.errMsg);
+    }
+  };
+
   // Capture error message for display on auth page
   const [errMsg, setErrMsg] = useState('');
   const handleAuthErr = errMsg => setErrMsg(errMsg);
@@ -76,6 +97,7 @@ const UserAuthContextProvider = props => {
         logout,
         errMsg,
         resetAuthErr,
+        editUser,
       }}
     >
       {props.children}

@@ -46,5 +46,3 @@ app.get('*', (req, res) => {
 app.listen(PORT, () =>
   console.log(`Express server is running on Port ${PORT}.`)
 );
-
-// opt/render/project/src/client/build/index.html

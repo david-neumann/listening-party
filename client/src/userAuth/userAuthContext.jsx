@@ -24,7 +24,10 @@ const UserAuthContextProvider = props => {
   // Signup
   const signup = async userCredentials => {
     try {
-      const res = await axios.post('/server/auth/signup', userCredentials);
+      const res = await axios.post(
+        'https://listening-party.onrender.com/server/auth/signup',
+        userCredentials
+      );
       const { user, token } = res.data;
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
@@ -41,7 +44,10 @@ const UserAuthContextProvider = props => {
   // Login
   const login = async userCredentials => {
     try {
-      const res = await axios.post('/server/auth/login', userCredentials);
+      const res = await axios.post(
+        'https://listening-party.onrender.com/server/auth/login',
+        userCredentials
+      );
       const { user, token } = res.data;
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
@@ -72,7 +78,10 @@ const UserAuthContextProvider = props => {
   // Edit user
   const editUser = async updatedUser => {
     try {
-      const res = await userAxios.put('/server/api/users/edit', updatedUser);
+      const res = await userAxios.put(
+        'https://listening-party.onrender.com/server/api/users/edit',
+        updatedUser
+      );
       localStorage.setItem('user', JSON.stringify(res.data));
       setUserAuthState(prevState => ({
         ...prevState,
@@ -88,7 +97,7 @@ const UserAuthContextProvider = props => {
     console.log(newPassword);
     try {
       const res = await userAxios.put(
-        '/server/api/users/edit/password',
+        'https://listening-party.onrender.com/server/api/users/edit/password',
         newPassword
       );
       console.log(res.data);

@@ -3,6 +3,7 @@ const app = express();
 require('dotenv').config();
 const cors = require('cors');
 const morgan = require('morgan');
+const path = require('path');
 const mongoose = require('mongoose');
 const { expressjwt: jwt } = require('express-jwt');
 const PORT = process.env.PORT || 9000;
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 9000;
 app.use(cors());
 app.use(express.json());
 app.use(morgan('dev'));
+app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 // Connect to database
 mongoose.connect(process.env.MONGODB, () =>
@@ -37,6 +39,9 @@ app.use((err, req, res, next) => {
   return res.send({ errMsg: err.message });
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
 // Server listen
 app.listen(PORT, () =>
   console.log(`Express server is running on Port ${PORT}.`)

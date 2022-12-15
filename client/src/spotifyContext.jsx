@@ -84,7 +84,7 @@ const SpotifyContextProvider = props => {
       } else {
         // Otherwise get new token with refreshToken and update localStorage and state
         const { data } = await axios.get(
-          `http://localhost:7070/server/spotify/auth/refresh/?${new URLSearchParams(
+          `https://listening-party.onrender.com/server/spotify/auth/refresh/?${new URLSearchParams(
             { refresh_token: refreshToken }
           ).toString()}`
         );

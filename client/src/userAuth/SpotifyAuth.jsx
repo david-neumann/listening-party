@@ -10,7 +10,7 @@ const SpotifyAuth = () => {
         </h1>
       </header>
       <main className='flex justify-center mt-12'>
-        <a href='http://localhost:7070/server/spotify/auth/login'>
+        <a href='https://listening-party.onrender.com/server/spotify/auth/login'>
           <button className='mt-4 py-2 px-6 text-xl font-bold rounded-2xl bg-green-300 hover:bg-green-400 text-gray-800'>
             Connect to Spotify
           </button>

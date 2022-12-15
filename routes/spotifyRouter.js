@@ -70,12 +70,12 @@ spotifyRouter.get('/auth/callback', (req, res) => {
           expiresIn: expires_in,
         }).toString();
 
-        res.redirect(`http://localhost:5173/?${queryParams}`);
+        res.redirect(`https://listening-party.onrender.com/?${queryParams}`);
       } else {
         const queryParams = new URLSearchParams({
           error: 'invalid_token',
         }).toString();
-        res.redirect(`http://localhost:5173/?${queryParams}`);
+        res.redirect(`https://listening-party.onrender.com/?${queryParams}`);
       }
     })
     .catch(err => console.dir(err));

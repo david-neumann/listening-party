@@ -23,8 +23,7 @@ const generateRandomString = length => {
 
 // GET request to redirect user to login with Spotify and generate auth code
 spotifyRouter.get('/auth/login', (req, res) => {
-  const scope =
-    'user-top-read user-read-recently-played user-read-private user-read-email';
+  const scope = 'user-read-recently-played user-read-private user-read-email';
 
   const state = generateRandomString(16);
 

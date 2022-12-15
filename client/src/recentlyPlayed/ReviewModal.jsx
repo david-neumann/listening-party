@@ -38,7 +38,7 @@ const ReviewModal = ({
   };
 
   return (
-    <div className='fixed top-0 w-screen h-full -mx-6 z-0 bg-black/80'>
+    <div className='fixed top-0 left-6 w-screen h-full -mx-6 z-0 bg-black/80'>
       <div
         className='fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 max-w-[500px]
         p-6 bg-gray-700 rounded-2xl'

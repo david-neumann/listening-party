@@ -108,7 +108,7 @@ const EditProfile = () => {
         />
       </header>
       <main>
-        <div className='mb-12 cursor-pointer'>
+        {/* <div className='mb-12 cursor-pointer'>
           <figure className='bg-gray-300 bg-cover bg-center w-28 aspect-square rounded-full relative mx-auto'>
             <Camera
               size={44}
@@ -117,7 +117,7 @@ const EditProfile = () => {
               className='absolute inset-0 m-auto'
             />
           </figure>
-        </div>
+        </div> */}
         <form>
           <div className='flex items-center gap-x-3 p-3 border-b border-gray-700'>
             <label className='font-semibold text-lg'>Username:</label>

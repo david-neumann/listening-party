@@ -1,5 +1,6 @@
-import { useState, createContext, useEffect } from 'react';
+import { useState, createContext, useEffect, useContext } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { UserAuthContext } from './userAuth/userAuthContext';
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -7,6 +8,7 @@ const SpotifyContext = createContext();
 
 const SpotifyContextProvider = props => {
   const navigate = useNavigate();
+  const { editUser } = useContext(UserAuthContext);
 
   const LOCALSTORAGE_KEYS = {
     accessToken: 'spotifyAccessToken',
@@ -125,13 +127,31 @@ const SpotifyContextProvider = props => {
       const res = await spotifyAxios.get('/me/player/recently-played?limit=20');
       setRecentlyPlayed(res.data.items);
     } catch (err) {
-      console.dir(err);
+      console.error(err);
+    }
+  };
+
+  // Get user's Spotify profile data for profile image
+  const [spotifyUserData, setSpotifyUserData] = useState({});
+
+  const getSpotifyProfile = async () => {
+    try {
+      const res = await spotifyAxios.get('/me');
+      setSpotifyUserData(res.data);
+      const { images } = res.data;
+      if (images.length > 0) {
+        const updateObj = { profileImgUrl: images[0].url };
+        editUser(updateObj);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   useEffect(() => {
     if (accessToken) {
       getRecentlyPlayed();
+      getSpotifyProfile();
     }
   }, [accessToken]);
 
@@ -175,6 +195,7 @@ const SpotifyContextProvider = props => {
         searchResults,
         onSearchSubmit,
         clearResults,
+        spotifyUserData,
       }}
     >
       {props.children}

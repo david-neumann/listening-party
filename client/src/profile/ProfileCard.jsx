@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom';
 import { User } from 'react-feather';
 
 const ProfileCard = ({ currentUserData }) => {
-  const { username, followers, following, createdAt } = currentUserData;
+  const { username, followers, following, createdAt, profileImgUrl } =
+    currentUserData;
   const joinDate = new Date(createdAt).toLocaleDateString('en-us', {
     month: 'long',
     year: 'numeric',
@@ -11,13 +12,20 @@ const ProfileCard = ({ currentUserData }) => {
   return (
     <section>
       <div className='flex gap-x-4 mb-10'>
-        {/* <figure className="bg-[url('/profile.jpeg')] bg-cover bg-center w-24 aspect-square rounded-full"></figure> */}
-        <User
-          size={72}
-          strokeWidth={2}
-          color='#1f2937'
-          className={`rounded-full bg-violet-300 shrink-0`}
-        />
+        {profileImgUrl ? (
+          <img
+            src={profileImgUrl}
+            alt='profile image'
+            className='w-24 rounded-full'
+          />
+        ) : (
+          <User
+            size={72}
+            strokeWidth={2}
+            color='#1f2937'
+            className={`rounded-full bg-green-300 shrink-0`}
+          />
+        )}
         <div className=''>
           <h2 className='text-2xl font-semibold'>{username}</h2>
           <p className=''>Joined {joinDate}</p>
